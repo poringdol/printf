@@ -22,7 +22,8 @@ OBJ = $(addprefix $(OBJDIR), $(OBJS))
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(AR) $(NAME) $(OBJ) $(LIBFTDIR)$(LIBFT)
+	cp $(LIBFTDIR)$(LIBFT) $(NAME)
+	$(AR) $(NAME) $(OBJ)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c $(HEADER)
 	test -d $(OBJDIR) || mkdir $(OBJDIR)
