@@ -1,5 +1,5 @@
 main.c
 test
-libptintf.a
+libprintf.a
 /libft
 /objects
