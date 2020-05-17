@@ -1,4 +1,4 @@
-./libft
-./objects
+/libft
+/objects
 test
 libptintf.a
