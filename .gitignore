@@ -2,3 +2,4 @@
 /objects
 test
 libptintf.a
+main.c
