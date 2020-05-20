@@ -3,3 +3,4 @@ test
 libprintf.a
 /libft
 /objects
+/.vscode
