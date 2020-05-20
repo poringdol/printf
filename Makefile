@@ -7,7 +7,7 @@ RM = rm -rf
 
 LIBFT = libft.a
 LIBFTDIR = ./libft/
-NAME = libprintf.a
+NAME = libftprintf.a
 
 HEADER = printf.h
 HEADERDIR = ./libft/includes/
