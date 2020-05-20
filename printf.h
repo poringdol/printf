@@ -1,6 +1,18 @@
 #ifndef PRINTF_H
 #define PRINTF_H
 
-void ft_printf(void);
+#include <stdarg.h>
+#include <unistd.h>
+
+typedef struct s_flags
+{
+	int minus;
+	int dot;
+	int zero;
+	int star;
+} t_flags;
+
+int		ft_printf(const char *format, ... );
+int 	check_params(char **format, va_list *ap);
 
 #endif

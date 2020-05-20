@@ -1,7 +1,7 @@
 SHELL = /bin/sh
 
-CC = gcc
-FLAGS = -Wall -Werror -Wextra
+CC = clang
+FLAGS = -Wall -Werror -Wextra -ggdb
 AR = ar rs
 RM = rm -rf
 
@@ -12,7 +12,8 @@ NAME = libprintf.a
 HEADER = printf.h
 HEADERDIR = ./libft/includes/
 
-SRC = printf.c
+SRC = printf.c\
+	  check_params.c
 SRCDIR = ./
 
 OBJS = $(SRC:.c=.o)
@@ -32,8 +33,8 @@ $(OBJDIR)%.o: $(SRCDIR)%.c $(HEADER)
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
-test:
-	$(CC) main.c -I$(HEADERDIR) -L./ -lprintf -o $@
+test: $(NAME)
+	$(CC) main.c -I$(HEADERDIR) -L./ -lprintf -o $@ $(FLAGS)
 
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
