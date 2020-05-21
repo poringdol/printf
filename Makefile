@@ -18,7 +18,8 @@ SRC = ft_printf.c\
 	  check_params.c\
 	  flags.c\
 	  print_char.c\
-	  print_string.c
+	  print_string.c\
+	  print_number.c
 
 SRCDIR = ./
 

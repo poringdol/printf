@@ -2,17 +2,6 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int	print_number(int number)
-{
-	int n;
-
-	n = number < 0 ? 2 : 1;
-	ft_putnbr(number);
-	while ((number /= 10) != 0)
-		n++;
-	return (n);
-}
-
 int ft_printf(const char *format, ...)
 {
 	va_list ap;

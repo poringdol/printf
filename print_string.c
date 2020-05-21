@@ -17,10 +17,10 @@ int print_null(t_flags *flags)
 	if (flags->spaces_len)
 	{
 		if (flags->dot && flags->dot_len < (int)ft_strlen("(null)"))
-			return (print_spaces(flags->spaces_len));
+			return (print_spaces(flags->spaces_len, ' '));
 		else
-			return (flags->minus ? (ft_putstr("(null)") + print_spaces(spaces)) :
-			print_spaces(spaces) + ft_putstr("(null)"));
+			return (flags->minus ? (ft_putstr("(null)") + print_spaces(spaces, ' ')) :
+			print_spaces(spaces, ' ') + ft_putstr("(null)"));
 	}
 	return (ft_putstr("(null)"));
 }
@@ -53,6 +53,6 @@ int		print_string(va_list *ap, t_flags *flags)
 	else
 		len = ft_strlen(string);
 	spaces = flags->spaces_len - len;
-	return (flags->minus ? (ft_putnstr(string, len) + print_spaces(spaces)) :
-	print_spaces(spaces) + ft_putnstr(string, len));
+	return (flags->minus ? (ft_putnstr(string, len) + print_spaces(spaces, ' ')) :
+	print_spaces(spaces, ' ') + ft_putnstr(string, len));
 }
