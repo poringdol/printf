@@ -3,6 +3,28 @@
 #include "libft.h"
 #include "libftprintf.h"
 
+int print_null(t_flags *flags)
+{
+	int spaces;
+	int len;
+
+	len = ft_strlen("(null)");
+	if (flags->dot && flags->dot_len < len && !flags->spaces_len)
+		return (0);
+	if (flags->dot && flags->dot_len < len)
+		len = flags->dot_len;
+	spaces = flags->spaces_len - len;
+	if (flags->spaces_len)
+	{
+		if (flags->dot && flags->dot_len < (int)ft_strlen("(null)"))
+			return (print_spaces(flags->spaces_len));
+		else
+			return (flags->minus ? (ft_putstr("(null)") + print_spaces(spaces)) :
+			print_spaces(spaces) + ft_putstr("(null)"));
+	}
+	return (ft_putstr("(null)"));
+}
+
 int	ft_putnstr(char const *s, int n)
 {
 	int i;
@@ -23,16 +45,14 @@ int		print_string(va_list *ap, t_flags *flags)
 	int		len;
 	int		spaces;
 	char 	*string;
-	char	*print;
 
-	string = va_arg(*ap, char *);
-	print = string ? string : "(null)";
-
+	if(!(string = va_arg(*ap, char *)))
+		return (print_null(flags));
 	if (flags->dot)
-		len = (flags->dot_len < (int)ft_strlen(print) ? flags->dot_len : ft_strlen(print));
+		len = (flags->dot_len < (int)ft_strlen(string) ? flags->dot_len : ft_strlen(string));
 	else
-		len = ft_strlen(print);
+		len = ft_strlen(string);
 	spaces = flags->spaces_len - len;
-	return (flags->minus ? (ft_putnstr(print, len) + print_spaces(spaces)) :
-	print_spaces(spaces) + ft_putnstr(print, len));
+	return (flags->minus ? (ft_putnstr(string, len) + print_spaces(spaces)) :
+	print_spaces(spaces) + ft_putnstr(string, len));
 }

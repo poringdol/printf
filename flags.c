@@ -21,7 +21,7 @@ void	set_flags(va_list *ap, t_flags *flags, char **c, int **last_flag)
 {
 	if (**c == '-')
 		flags->minus = 1;
-	else if (**c == '0')
+	else if (**c == '0' && !*last_flag)
 	{
 		flags->zero = 1;
 		*last_flag = &(flags->zero_len);
