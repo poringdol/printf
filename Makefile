@@ -7,13 +7,19 @@ RM = rm -rf
 
 LIBFT = libft.a
 LIBFTDIR = ./libft/
+LIBFTHEADER = libft.h
+LIBFTHEADERDIR = ./libft/includes/
+
 NAME = libftprintf.a
+HEADER = libftprintf.h
+HEADERDIR = ./
 
-HEADER = printf.h
-HEADERDIR = ./libft/includes/
+SRC = ft_printf.c\
+	  check_params.c\
+	  flags.c\
+	  print_char.c\
+	  print_string.c
 
-SRC = printf.c\
-	  check_params.c
 SRCDIR = ./
 
 OBJS = $(SRC:.c=.o)
@@ -28,13 +34,13 @@ $(NAME): $(OBJ) $(LIBFT)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c $(HEADER)
 	test -d $(OBJDIR) || mkdir $(OBJDIR)
-	$(CC) -I $(HEADERDIR) -c $< -o $@ $(FLAGS)
+	$(CC) -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -c $< -o $@ $(FLAGS)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
 test: $(NAME)
-	$(CC) main.c -I$(HEADERDIR) -L./ -lprintf -o $@ $(FLAGS)
+	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ $(FLAGS)
 
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)

@@ -1,6 +1,6 @@
 #include <stdarg.h>
-#include <unistd.h>
-#include "printf.h"
+#include <stdlib.h>
+#include "libftprintf.h"
 #include "libft.h"
 
 int		isspecs(char c)
@@ -17,84 +17,42 @@ int		print_spaces(int n)
 	i = 0;
 	while (i++ < n)
 		ft_putchar(' ');
-	return (n);
+	return (n > 0 ? n : 0);
 }
 
-void	reset_flags(t_flags *flags)
+int get_number(char **arr)
 {
-	flags->minus = 0;
-	flags->dot = 0;
-	flags->star = 0;
-	flags->zero = 0;
-}
-
-void	set_flags(t_flags *flags, char c)
-{
-	if (c == '-')
-		flags->minus = 1;
-	else if (c == '0')
-		flags->zero = 1;
-	else if (c == '.')
-		flags->dot = 1;
-	else if (c == '*')
-		flags->star = 1;
-}
-
-int get_number(char *arr, int *i)
-{
-	int 	j;
 	int		k;
+	char	*tmp;
 	char	str[12];
 
-	j = *i;
 	k = 0;
-	while (arr[j] && j < 20 && ft_isdigit(arr[j]))
-		str[k++] = arr[j++];
+	tmp = *arr;
+	while (*tmp && ft_isdigit(*tmp))
+		str[k++] = *tmp++;
 	str[k] = '\0';
-	*i = j - 1;
+	*arr = --tmp;
 	return (ft_atoi(str));
 }
 
-int		print_char(va_list *ap, char arr[])
+int 	check_params(char **str, va_list *ap, t_flags *flags)
 {
-	int i;
-	int	minus;
-	int count;
-
-	i = 0;
-	count = 0;
-	minus = 0;
-	while (arr[i])
-	{
-		if (arr[i] == '-')
-			minus = 1;
-		else if (arr[i] == '*')
-			count = va_arg(*ap, int);
-		else if (ft_isdigit(arr[i]))
-			count = get_number(arr, &i) - 1;
-		i++;
-	}
-	return (minus ? (ft_putchar(va_arg(*ap, int)) + print_spaces(count)) :
-	print_spaces(count) + ft_putchar(va_arg(*ap, int)));
-}
-
-int 	check_params(char **str, va_list *ap)
-{
-	char	arr[50];
 	int		n;
+	int		*last_flag;
 	char	*tmp;
 
 	n = 0;
+	last_flag = NULL;
 	tmp = *str;
-	ft_bzero(arr, 50);
+	reset_flags(flags);
 	if (*tmp == '%')
 		return (ft_putchar(*tmp++));
 	while (!isspecs(*tmp))
-		arr[n++] = *tmp++;
+		set_flags(ap, flags, &tmp, &last_flag);
 	if (*tmp == 'c')
-		n = print_char(ap, arr);
-	// else if (*format == 's')
-	// 	n += print_string(va_arg(ap, char *));
+		n = print_char(ap, flags);
+	else if (*tmp == 's')
+		n = print_string(ap, flags);
 	// else if (*format == 'i' || *format == 'd')
 	// 	n = print_number(va_arg(ap, int));
 	*str = tmp;
