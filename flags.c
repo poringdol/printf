@@ -41,6 +41,8 @@ t_flags		*create_flags(void)
 	flags->spaces_len = 0;
 	flags->zero_len = 0;
 	flags->dot_len = 0;
+	flags->sign = 0;
+	flags->intzero = 0;
     return (flags);
 }
 
@@ -77,4 +79,22 @@ void		reset_flags(t_flags *flags)
 	flags->spaces_len = 0;
 	flags->zero_len = 0;
 	flags->dot_len = 0;
+	flags->sign = 0;
+	flags->intzero = 0;
+}
+
+void		ignored_flag(t_flags *flags)
+{
+	if (flags->plus)
+		flags->hidden = 0;
+	if (flags->minus)
+		flags->zero = 0;
+	if (flags->dot && flags->zero)
+	{
+		flags->spaces_len = flags->zero_len;
+		flags->zero_len = 0;
+		flags->zero = 0;
+	}
+	if (flags->plus || flags->hidden)
+		flags->sign = 1;
 }

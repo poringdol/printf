@@ -1,11 +1,10 @@
 #include <stdarg.h>
-#include <stdlib.h>
 #include "libftprintf.h"
 #include "libft.h"
 
 int		isspecs(char c)
 {
-	if (c == 'c' || c == 's' || c == 'i' || c == 'd')
+	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u')
 		return (c);
 	return (0);
 }
@@ -39,22 +38,24 @@ int 	check_params(char **str, va_list *ap, t_flags *flags)
 {
 	int		n;
 	int		*last_flag;
-	char	*tmp;
 
 	n = 0;
 	last_flag = NULL;
-	tmp = *str;
 	reset_flags(flags);
-	if (*tmp == '%')
-		return (ft_putchar(*tmp++));
-	while (!isspecs(*tmp))
-		set_flags(ap, flags, &tmp, &last_flag);
-	if (*tmp == 'c')
+	if (**str == '%')
+		return (ft_putchar(*((*str)++)));
+	while (!isspecs(**str))
+		set_flags(ap, flags, str, &last_flag);
+	ignored_flag(flags);
+	if (**str == 'c')
 		n = print_char(ap, flags);
-	else if (*tmp == 's')
+	else if (**str == 's')
 		n = print_string(ap, flags);
-	else if (*tmp == 'i' || *tmp == 'd')
+	else if (**str == 'i' || **str == 'd')
 		n = print_number(ap, flags);
-	*str = tmp;
+	else if (**str == 'u')
+		n = print_unumber(ap, flags);
+	else
+		n = ft_putchar(**str);
 	return (n);
 }

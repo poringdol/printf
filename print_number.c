@@ -5,46 +5,67 @@
 
 static int		print_space(t_flags *flags, int len)
 {
-	int i;
+	int	i;
+	int space;
 
 	i = 0;
-	while ((i < flags->spaces_len - flags->dot_len) && (i < len))
+	if (f_spaces_l > f_dot_l)
 	{
-		ft_putchar(' ');
-		i++;
+		space = f_spaces_l - ((f_dot_l > len) ? f_dot_l : len);
+		space -= (f_sign && f_dot && f_dot_l >= len) ? 1 : 0;
+		while (i < space)
+		{
+			ft_putchar(' ');
+			i++;
+		}
 	}
-
-	while (i++ < len)
-		ft_putchar('0');
-	return (len > 0 ? len : 0);
+	if (f_zero_l > f_dot_l)
+	{
+		space = f_zero_l - ((f_dot_l ) ? f_dot_l : len);
+		while (i < f_zero_l - f_dot_l - len)
+		{
+			ft_putchar('0');
+			i++;
+		}
+	}
+	return (i);
 }
 
-
-int len_number(t_flags *flags, int n)
+static int		plus_minus(t_flags *flags, int n)
 {
-	long long	i;
-	int			tmp;
-	int			len;
-
-	if (n == INT_MIN)
-		return (11);
-	len = n >= 0 && !(flags->plus) && !(flags->hidden) ? 0 : 1;
-	tmp = n > 0 ? n : -n;
-	i = 1;
-	while (i <= tmp)
-		i *= 10;
-	if (tmp != 0)
-		i /= 10;
-	while (i > 0)
-	{
-		tmp %= i;
-		i /= 10;
-		len++;
-	}
-    return (len);
+	if (!n && !(f_zero_l) && ((f_dot && !(f_dot_l)) ||
+	(f_minus && !(f_spaces_l)) || (f_plus && !(f_spaces_l))))
+		return (0);
+	if (f_plus && n >= 0)
+		return (ft_putchar('+'));
+	if (f_hidden && n >= 0)
+		return (ft_putchar(' '));
+	if (n < 0)
+		return (ft_putchar('-'));
+	return (0);
 }
 
-int			put_number(int n)
+static int		print_dot(t_flags *flags, int len)
+{
+	int	i;
+	int	dot;
+
+	i = 0;
+	dot = f_dot_l - len;
+	if (f_sign)
+		dot++;
+	// if (f_dot_l > f_spaces_l)
+	// {
+		while (i < dot)
+		{
+			ft_putchar('0');
+			i++;
+		}
+	// }
+	return (i);
+}
+
+static int		put_number(int n)
 {
 	if (n == INT_MIN)
 		return (ft_putstr("2147483648"));
@@ -52,41 +73,71 @@ int			put_number(int n)
 		return (ft_putnbr(n));
 	else
 		return (ft_putnbr(-n));
+	
 }
 
-static int	plus_minus(t_flags *flags, int n)
+static int		print_sign(t_flags *flags)
 {
-	if (!n && !(flags->zero_len) && ((flags->dot && !(flags->dot_len)) ||
-	(flags->minus && !(flags->spaces_len)) || (flags->plus && !(flags->spaces_len))))
-		return (0);
-	if (flags->plus && n >= 0)
-		return (ft_putchar('+'));
-	if (flags->hidden && n >= 0)
-		return (ft_putchar(' '));
-	if (n < 0)
-		return (ft_putchar('-'));
-	return (0);
-}
-
-int print_number(va_list *ap, t_flags *flags)
-{
-	int n;
 	int len;
+	int res;
 
-	n = va_arg(*ap, int);
-	if (!n && ((flags->dot && !(flags->dot_len)) || (flags->minus && !flags->spaces_len)))
-		return (plus_minus(flags, n) + print_space(flags, flags->spaces_len));
-	if (flags->dot && !(flags->dot_len) && !n)
-		return (print_space(flags, flags->spaces_len) + plus_minus(flags, n));
+	if (!f_spaces_l && !f_zero_l && !f_plus && !f_hidden)
+		return (0);
+	res = 0;
+	len = f_sign ? 1 : 0;
+	if (f_spaces_l && !f_minus)
+		res += print_space(flags, len);
+	res += f_plus ? ft_putchar('+') : ft_putchar(' ');
+	if (f_zero)
+		res += print_space(flags, len);
+	res += print_dot(flags, len);
+	if (f_spaces_l && f_minus)
+		res += print_space(flags, len);
+	return (res);
+}
+
+int				print_number(va_list *ap, t_flags *flags)
+{
+	int	n;
+	int	len;
+	int	res;
+
+	res = 0;
+	f_sign += (n = va_arg(*ap, int)) < 0 ? 1 : 0;
+	f_intzero = (n == 0) ? 1 : 0;
+	if (!n && (f_dot && !f_dot_l))
+		return (print_sign(flags));
 	len = len_number(flags, n);
-	if (flags->dot && flags->dot_len > flags->spaces_len)
-		return (plus_minus(flags, n) + print_space(flags, flags->dot_len - len +
-		(n < 0 || flags->plus || flags->hidden)) + put_number(n));
-	if (flags->zero)
-		return (plus_minus(flags, n) + print_space(flags, flags->zero_len - len) + put_number(n));
-	if (flags->minus)
-		return (plus_minus(flags, n) + put_number(n) + print_space(flags, flags->spaces_len - len));
-	if (flags->spaces_len)
-		return (print_space(flags, flags->spaces_len - len) + plus_minus(flags, n) + put_number(n));
-	return (plus_minus(flags, n) + put_number(n));
+	if (f_spaces_l && !f_minus)
+		res += print_space(flags, len);
+	res += plus_minus(flags, n);
+	if (f_zero)
+		res += print_space(flags, len);
+	res += print_dot(flags, len);
+	res += put_number(n);
+	if (f_spaces_l && f_minus)
+		res += print_space(flags, len);
+	return (res);
+}
+
+int				print_unumber(va_list *ap, t_flags *flags)
+{
+	int	n;
+	int	len;
+	int	res;
+
+	res = 0;
+	n = va_arg(*ap, int);
+	if (!n && (f_dot && !f_dot_l))
+		return (print_sign(flags));
+	len = len_number(flags, n);
+	if (f_spaces_l && !f_minus)
+		res += print_space(flags, len);
+	if (f_zero)
+		res += print_space(flags, len);
+	res += print_dot(flags, len);
+	res += ft_putunbr(n);
+	if (f_spaces_l && f_minus)
+		res += print_space(flags, len);
+	return (res);
 }

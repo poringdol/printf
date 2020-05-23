@@ -19,7 +19,9 @@ SRC = ft_printf.c\
 	  flags.c\
 	  print_char.c\
 	  print_string.c\
-	  print_number.c
+	  print_number.c\
+	  len_number.c\
+	  ft_putunbr.c
 
 SRCDIR = ./
 
