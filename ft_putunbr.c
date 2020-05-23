@@ -8,7 +8,7 @@ int	ft_putunbr(unsigned n)
 	int			len;
 
 	if (n == 0)
-		return (ft_putchar(0));
+		return (ft_putchar('0'));
 	len = 0;
 	tmp = n;
 	i = 1;

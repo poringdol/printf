@@ -3,19 +3,21 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int len_number(t_flags *flags, int n)
+int len_number(t_flags *flags, long long n)
 {
 	long long	i;
-	int			tmp;
+	long long	tmp;
 	int			len;
 
 	len = !flags->sign ? 0 : 1;
-	if (n == INT_MIN)
-		return (10);
+	if (n == LLONG_MIN)
+		return (19);
 	tmp = n > 0 ? n : -n;
 	i = 1;
 	while (i <= tmp)
     {
+		if (i * 10 < i)
+			return (19);
 		i *= 10;
         len++;
     }

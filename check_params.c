@@ -4,7 +4,14 @@
 
 int		isspecs(char c)
 {
-	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u')
+	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'x' || c == 'X' || c == 'l')
+		return (c);
+	return (0);
+}
+
+int		isflags(char c)
+{
+	if (c == '-' || c == '0' || c == '.' || c == '*' || c == '#' || c == ' ' || c == '+' || ft_isdigit(c))
 		return (c);
 	return (0);
 }
@@ -43,19 +50,18 @@ int 	check_params(char **str, va_list *ap, t_flags *flags)
 	last_flag = NULL;
 	reset_flags(flags);
 	if (**str == '%')
-		return (ft_putchar(*((*str)++)));
-	while (!isspecs(**str))
+		return (ft_putchar(**str));
+	while (!isspecs(**str) && isflags(**str))
 		set_flags(ap, flags, str, &last_flag);
-	ignored_flag(flags);
 	if (**str == 'c')
-		n = print_char(ap, flags);
+		n = print_c(ap, flags);
 	else if (**str == 's')
-		n = print_string(ap, flags);
-	else if (**str == 'i' || **str == 'd')
-		n = print_number(ap, flags);
-	else if (**str == 'u')
-		n = print_unumber(ap, flags);
-	else
-		n = ft_putchar(**str);
+		n = print_s(ap, flags);
+	else if (**str == 'i' || **str == 'd' || **str == 'u')
+		n = print_number(ap, flags, **str);
+	else if (**str == 'x' || **str == 'X')
+		n = print_number(ap, flags, **str);
+	else if (**str == 'l')
+		set_flags(ap, flags, str, &last_flag);
 	return (n);
 }

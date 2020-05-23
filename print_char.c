@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "libftprintf.h"
 
-int			print_char(va_list *ap,  t_flags *flags)
+int			print_c(va_list *ap,  t_flags *flags)
 {
 	int spaces;
 	int	n;

@@ -40,7 +40,7 @@ int	ft_putnstr(char const *s, int n)
 	return (n);
 }
 
-int		print_string(va_list *ap, t_flags *flags)
+int		print_s(va_list *ap, t_flags *flags)
 {
 	int		len;
 	int		spaces;

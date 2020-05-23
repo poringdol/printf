@@ -43,7 +43,9 @@ t_flags		*create_flags(void)
 	flags->dot_len = 0;
 	flags->sign = 0;
 	flags->intzero = 0;
-    return (flags);
+	flags->ll = 0;
+	flags->hex = 0;
+	return (flags);
 }
 
 void		set_flags(va_list *ap, t_flags *flags, char **c, int **last_flag)
@@ -57,7 +59,7 @@ void		set_flags(va_list *ap, t_flags *flags, char **c, int **last_flag)
 	else if (**c == '0' && !*last_flag && !flags->minus)
 		set_last(flags, last_flag, **c);
 	else if (**c == '.')
-	set_last(flags, last_flag, **c);
+		set_last(flags, last_flag, **c);
 	else if (**c == '*' || ft_isdigit(**c))
 	{
 		if (*last_flag)
@@ -66,12 +68,16 @@ void		set_flags(va_list *ap, t_flags *flags, char **c, int **last_flag)
 			flags->spaces_len = (**c == '*' ? va_arg(*ap, int) : get_number(c));
 		*last_flag = NULL;
 	}
-    (*c)++;
+	else if (**c == 'l')
+		flags->ll++;
+	else if (**c == '#')
+		flags->hash = 1;
+	(*c)++;
 }
 
 void		reset_flags(t_flags *flags)
 {
-    flags->minus = 0;
+	flags->minus = 0;
 	flags->plus = 0;
 	flags->hidden = 0;
 	flags->zero = 0;
@@ -81,6 +87,9 @@ void		reset_flags(t_flags *flags)
 	flags->dot_len = 0;
 	flags->sign = 0;
 	flags->intzero = 0;
+	flags->ll = 0;
+	flags->hex = 0;
+	flags->hash = 0;
 }
 
 void		ignored_flag(t_flags *flags)
@@ -97,4 +106,8 @@ void		ignored_flag(t_flags *flags)
 	}
 	if (flags->plus || flags->hidden)
 		flags->sign = 1;
+	if (flags->hash && flags->intzero)
+		flags->hash = 0;
+	if (flags->hash && !flags->intzero && f_dot)
+		flags->dot_len += 2;
 }
