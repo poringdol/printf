@@ -24,7 +24,7 @@ int ft_printf(const char *format, ...)
 			n += check_params((char **)&format, &ap, flags);
 			flag = 0;
 		}
-		format++;
+		format += *format ? 1 : + 0;
 	}
 	free(flags);
 	va_end(ap);

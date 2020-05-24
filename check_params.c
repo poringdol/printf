@@ -59,7 +59,7 @@ int 	check_params(char **str, va_list *ap, t_flags *flags)
 	while (!isspecs(**str) && isflags(**str))
 		set_flags(ap, flags, str);
 	if (**str == '%')
-		return (ft_putchar(**str));
+		return (print_percent(flags));
 	if (**str == 'c')
 		n = print_c(ap, flags);
 	else if (**str == 's')

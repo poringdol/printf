@@ -260,23 +260,16 @@ int				print_p(va_list *ap, t_flags *flags)
 
 	res = 0;
 	f_hex = 1;
-	flags->hash = 1;
+	f_hash = 1;
 	number = convert_x(ap, flags, 'x');
-	if (flags->intzero)
-		return (ft_putstr("(nil)"));		
-	// ignored_flag(flags);
-	// if (number[0] == '0' && (f_dot && !f_dot_l))
-	// 	return (print_sign(flags));
+	ignored_flag(flags);
 	len = ft_strlen(number) + 2;
 	if (f_spaces_l && !f_minus)
 		res += print_space(flags, len);
 	res += plus_minus(flags, 1, 'x');
-	// if (f_zero)
-	// 	res += print_space(flags, len);
-	res += print_dot(flags, len);
-	if (number[0] == 0 && !(f_dot && !f_dot_l))
-		res += ft_putchar('0');
-	res += ft_putstr(number);
+	if (f_zero)
+		res += print_space(flags, len);
+	res += (number[0] == '0') ? ft_putstr("0x0") : ft_putstr(number);
 	if (f_spaces_l && f_minus)
 		res += print_space(flags, len);
 	free(number);
@@ -301,4 +294,21 @@ int				print_number(va_list *ap, t_flags *flags, char c)
 	else if (c == 'x' || c == 'X')
 		i += print_x(ap, flags, c);
 	return (i);
+}
+
+int 		print_percent(t_flags *flags)
+{
+	int res;
+
+	res = 0;
+	ignored_flag(flags);
+	if (f_spaces_l && !f_minus)
+		res += print_space(flags, 1);
+	if (f_zero)
+		res += print_space(flags, 1);
+	res += print_dot(flags, 1);
+	res += ft_putchar('%');
+	if (f_spaces_l && f_minus)
+		res += print_space(flags, 1);
+	return (res);
 }
