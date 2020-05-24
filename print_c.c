@@ -1,44 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/24 10:15:43 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/05/24 10:15:47 by pdemocri         ###   ########.fr       */
+/*   Created: 2020/05/24 10:33:18 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/05/24 10:33:32 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include "libftprintf.h"
 #include "libft.h"
+#include "libftprintf.h"
 
-int	ft_printf(const char *format, ...)
+int			print_c(va_list *ap, t_flags *flags)
 {
-	va_list ap;
-	t_flags	*flags;
-	int		flag;
-	int		n;
+	int spaces;
+	int	n;
 
-	va_start(ap, format);
-	n = 0;
-	flag = 0;
-	flags = create_flags();
-	while (*format)
-	{
-		if (*format == '%' && !flag)
-			flag = 1;
-		else if (*format != '%' && !flag)
-			n += write(1, format, 1);
-		else if (flag)
-		{
-			n = check_params((char **)&format, &ap, flags, n);
-			flag = 0;
-		}
-		format += *format ? 1 : 0;
-	}
-	free(flags);
-	va_end(ap);
+	spaces = flags->spaces_len - 1;
+	n = flags->minus ? (ft_putchar(va_arg(*ap, int)) +
+	print_space_ch(spaces, ' ')) :
+	print_space_ch(spaces, ' ') + ft_putchar(va_arg(*ap, int));
 	return (n);
+}
+
+int			print_space_ch(int n, int c)
+{
+	int i;
+
+	i = 0;
+	while (i++ < n)
+		ft_putchar(c);
+	return (n > 0 ? n : 0);
 }

@@ -1,25 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flags.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/24 10:28:25 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/05/24 10:28:30 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libftprintf.h"
 #include "libft.h"
 
 static void	set_last(t_flags *flags, int c)
 {
-	if (c == '0' && !f_last_f)
+	if (c == '0' && !F_LAST_F)
 	{
 		flags->zero = 1;
-		f_last_f = &(flags->zero_len);
+		F_LAST_F = &(flags->zero_len);
 	}
 	else if (c == '.')
 	{
 		flags->dot = 1;
-		f_last_f = &(flags->dot_len);
+		F_LAST_F = &(flags->dot_len);
 	}
 	else if (c == '-')
 	{
-		if (f_last_f == &(flags->zero_len))
+		if (F_LAST_F == &(flags->zero_len))
 		{
 			flags->zero = 0;
-			f_last_f = NULL;
+			F_LAST_F = NULL;
 			flags->spaces_len = (!flags->spaces_len && flags->zero_len) ?
 			flags->zero_len : flags->spaces_len;
 		}
@@ -58,17 +70,17 @@ void		set_flags(va_list *ap, t_flags *flags, char **c)
 		flags->plus = 1;
 	else if (**c == ' ')
 		flags->hidden = 1;
-	else if (**c == '0' && !f_last_f && !flags->minus)
+	else if (**c == '0' && !F_LAST_F && !flags->minus)
 		set_last(flags, **c);
 	else if (**c == '.')
 		set_last(flags, **c);
 	else if (**c == '*' || ft_isdigit(**c))
 	{
-		if (f_last_f)
-			*f_last_f = (**c == '*' ? va_arg(*ap, int) : get_number(c));
+		if (F_LAST_F)
+			*F_LAST_F = (**c == '*' ? va_arg(*ap, int) : get_number(c));
 		else
 			flags->spaces_len = (**c == '*' ? va_arg(*ap, int) : get_number(c));
-		f_last_f = NULL;
+		F_LAST_F = NULL;
 	}
 	else if (**c == 'l')
 		flags->ll++;
@@ -98,13 +110,13 @@ void		reset_flags(t_flags *flags)
 	flags->last_flag = NULL;
 }
 
-void		ignored_flag(t_flags *flags)
+void		ignored_flags(t_flags *flags)
 {
 	if (flags->plus)
 		flags->hidden = 0;
 	if (flags->minus)
 	{
-		f_spaces_l = !f_spaces_l ? f_zero_l : f_spaces_l;
+		F_SPACES_L = !F_SPACES_L ? F_ZERO_L : F_SPACES_L;
 		flags->zero = 0;
 		flags->zero_len = 0;
 	}
