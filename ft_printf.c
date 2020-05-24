@@ -21,7 +21,7 @@ int ft_printf(const char *format, ...)
 			n += write(1, format, 1);
 		else if (flag)
 		{
-			n += check_params((char **)&format, &ap, flags);
+			n = check_params((char **)&format, &ap, flags, n);
 			flag = 0;
 		}
 		format += *format ? 1 : + 0;

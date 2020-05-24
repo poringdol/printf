@@ -103,7 +103,11 @@ void		ignored_flag(t_flags *flags)
 	if (flags->plus)
 		flags->hidden = 0;
 	if (flags->minus)
+	{
+		f_spaces_l = !f_spaces_l ? f_zero_l : f_spaces_l;
 		flags->zero = 0;
+		flags->zero_len = 0;
+	}
 	if (flags->dot && flags->zero)
 	{
 		flags->spaces_len = flags->zero_len;
@@ -114,6 +118,6 @@ void		ignored_flag(t_flags *flags)
 		flags->sign = 1;
 	if (flags->hash && flags->intzero)
 		flags->hash = 0;
-	if (flags->hash && !flags->intzero && f_dot)
+	if (flags->hash && !flags->intzero && flags->dot)
 		flags->dot_len += 2;
 }

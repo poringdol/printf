@@ -52,7 +52,7 @@ int				print_x(va_list *ap, t_flags *flags, char c);
 char			*convert_x(va_list *ap, t_flags *flags, char c);
 int				print_p(va_list *ap, t_flags *flags);
 int				print_percent(t_flags *flags);
-int			 	check_params(char **format, va_list *ap, t_flags *flags);
+int			 	check_params(char **format, va_list *ap, t_flags *flags, int n);
 int				get_number(char **arr);
 int				len_number(t_flags *flags, long long n);
 int				ft_putunbr(unsigned long long n);

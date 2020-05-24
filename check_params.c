@@ -50,27 +50,42 @@ int get_number(char **arr)
 	return (ft_atoi(str));
 }
 
-int 	check_params(char **str, va_list *ap, t_flags *flags)
+void	ifnegative(t_flags *flags)
 {
-	int		n;
+	if (f_zero_l < 0 || f_spaces_l < 0)
+	{
+		f_zero_l = f_zero_l < 0 ? -f_zero_l : f_zero_l;
+		f_spaces_l = f_spaces_l < 0 ? -f_spaces_l : f_spaces_l;
+		f_minus = 1;
+	}
+	if (f_dot_l < 0 && (f_dot_l < f_spaces_l || f_dot_l < f_zero_l))
+	{
+		f_dot_l = 0;
+		f_dot = 0;
+	}
+}
 
-	n = 0;
+int 	check_params(char **str, va_list *ap, t_flags *flags, int n)
+{
 	reset_flags(flags);
 	while (!isspecs(**str) && isflags(**str))
 		set_flags(ap, flags, str);
+	ifnegative(flags);
 	if (**str == '%')
 		return (print_percent(flags));
 	if (**str == 'c')
-		n = print_c(ap, flags);
+		n += print_c(ap, flags);
 	else if (**str == 's')
-		n = print_s(ap, flags);
+		n += print_s(ap, flags);
 	else if (**str == 'i' || **str == 'd' || **str == 'u')
-		n = print_number(ap, flags, **str);
+		n += print_number(ap, flags, **str);
 	else if (**str == 'x' || **str == 'X')
-		n = print_number(ap, flags, **str);
+		n += print_number(ap, flags, **str);
 	else if (**str == 'l' || **str == 'h')
-		n = islongshort(ap, flags, str);
+		n += islongshort(ap, flags, str);
 	else if (**str == 'p')
-		n = print_p(ap, flags);
+		n += print_p(ap, flags);
+	else if (**str == 'n')
+		*(va_arg(*ap, int *)) = n;
 	return (n);
 }

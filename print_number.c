@@ -263,12 +263,15 @@ int				print_p(va_list *ap, t_flags *flags)
 	f_hash = 1;
 	number = convert_x(ap, flags, 'x');
 	ignored_flag(flags);
-	len = ft_strlen(number) + 2;
+	len = (number[0] == '0' && f_dot && !f_dot_l) ? 2 : ft_strlen(number) + 2;
 	if (f_spaces_l && !f_minus)
 		res += print_space(flags, len);
+	if (number[0] == '0' && (f_dot && !f_dot_l))
+		return (ft_putstr("0x") + res);
 	res += plus_minus(flags, 1, 'x');
 	if (f_zero)
 		res += print_space(flags, len);
+	res += print_dot(flags, len);
 	res += (number[0] == '0') ? ft_putstr("0x0") : ft_putstr(number);
 	if (f_spaces_l && f_minus)
 		res += print_space(flags, len);
