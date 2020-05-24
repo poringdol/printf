@@ -123,12 +123,12 @@ int				print_i(va_list *ap, t_flags *flags)
 
 int				print_u(va_list *ap, t_flags *flags)
 {
-	int	n;
-	int	len;
-	int	res;
+	unsigned long long	n;
+	int					len;
+	int					res;
 
 	res = 0;
-	n = va_arg(*ap, int);
+	n = va_arg(*ap, unsigned long long);
 	ignored_flag(flags);
 	if (!n && (f_dot && !f_dot_l))
 		return (print_sign(flags));
@@ -138,20 +138,20 @@ int				print_u(va_list *ap, t_flags *flags)
 	if (f_zero)
 		res += print_space(flags, len);
 	res += print_dot(flags, len);
-	res += ft_putunbr(n);
+	res += ft_putnbr(n);
 	if (f_spaces_l && f_minus)
 		res += print_space(flags, len);
 	return (res);
 }
 
-int				print_l(va_list *ap, t_flags *flags)
+int				print_hhi(va_list *ap, t_flags *flags)
 {
-	long		n;
-	int			len;
-	int			res;
+	short				n;
+	int					len;
+	int					res;
 
 	res = 0;
-	f_sign += (n = va_arg(*ap, long)) < 0 ? 1 : 0;
+	f_sign += (n = va_arg(*ap, int)) < 0 ? 1 : 0;
 	f_intzero = (n == 0) ? 1 : 0;
 	ignored_flag(flags);
 	if (!n && (f_dot && !f_dot_l))
@@ -169,11 +169,11 @@ int				print_l(va_list *ap, t_flags *flags)
 	return (res);
 }
 
-int				print_ll(va_list *ap, t_flags *flags)
+int				print_lli(va_list *ap, t_flags *flags)
 {
-	long long	n;
-	int			len;
-	int			res;
+	long long			n;
+	int					len;
+	int					res;
 
 	res = 0;
 	f_sign += (n = va_arg(*ap, long long)) < 0 ? 1 : 0;
@@ -196,11 +196,11 @@ int				print_ll(va_list *ap, t_flags *flags)
 
 char			*convert_x(va_list *ap, t_flags *flags, char c)
 { 
-	int			j;
-	unsigned	n;
-	char		tmp;
-	char 		*buf;
-	
+	int					j;
+	long long			n;
+	char				tmp;
+	char 				*buf;
+
 	j = 0;
 	buf = (char *)ft_calloc(60, 1);
 	if ((n = va_arg(*ap, long long)) < 0)
@@ -225,9 +225,9 @@ char			*convert_x(va_list *ap, t_flags *flags, char c)
 
 int				print_x(va_list *ap, t_flags *flags, char c)
 {
-	int			len;
-	int			res;
-	char		*number;
+	int					len;
+	int					res;
+	char				*number;
 
 	res = 0;
 	f_hex = 1;
@@ -252,20 +252,53 @@ int				print_x(va_list *ap, t_flags *flags, char c)
 	return (res);
 }
 
+int				print_p(va_list *ap, t_flags *flags)
+{
+	int					len;
+	int					res;
+	char				*number;
+
+	res = 0;
+	f_hex = 1;
+	flags->hash = 1;
+	number = convert_x(ap, flags, 'x');
+	if (flags->intzero)
+		return (ft_putstr("(nil)"));		
+	// ignored_flag(flags);
+	// if (number[0] == '0' && (f_dot && !f_dot_l))
+	// 	return (print_sign(flags));
+	len = ft_strlen(number) + 2;
+	if (f_spaces_l && !f_minus)
+		res += print_space(flags, len);
+	res += plus_minus(flags, 1, 'x');
+	// if (f_zero)
+	// 	res += print_space(flags, len);
+	res += print_dot(flags, len);
+	if (number[0] == 0 && !(f_dot && !f_dot_l))
+		res += ft_putchar('0');
+	res += ft_putstr(number);
+	if (f_spaces_l && f_minus)
+		res += print_space(flags, len);
+	free(number);
+	return (res);
+}
+
 int				print_number(va_list *ap, t_flags *flags, char c)
 {
 	int			i;
 
 	i = 0;
-	if (c == 'd' || (c == 'i' && !f_ll))
+	if ((c == 'd' || c == 'i') && !f_ll && !f_hh)
 		i += print_i(ap, flags);
-	if (c == 'u')
+	else if (c == 'u')
 		i += print_u(ap, flags);
-	if (f_ll == 1)
-		i += print_l(ap, flags);
-	if (f_ll == 2)
-		i += print_ll(ap, flags);
-	if (c == 'x' || c == 'X')
+	else if ((c == 'd' || c == 'i') && f_ll)
+		i += print_lli(ap, flags);
+	else if ((c == 'd' || c == 'i') && f_hh)
+		i += print_hhi(ap, flags);
+	else if (f_ll && (c == 'x' || c == 'X'))
+		i += print_x(ap, flags, c);
+	else if (c == 'x' || c == 'X')
 		i += print_x(ap, flags, c);
 	return (i);
 }

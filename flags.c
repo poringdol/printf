@@ -2,24 +2,24 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static void	set_last(t_flags *flags, int **last_flag, int c)
+static void	set_last(t_flags *flags, int c)
 {
-	if (c == '0' && !*last_flag)
+	if (c == '0' && !f_last_f)
 	{
 		flags->zero = 1;
-		*last_flag = &(flags->zero_len);
+		f_last_f = &(flags->zero_len);
 	}
 	else if (c == '.')
 	{
 		flags->dot = 1;
-		*last_flag = &(flags->dot_len);
+		f_last_f = &(flags->dot_len);
 	}
 	else if (c == '-')
 	{
-		if (*last_flag == &(flags->zero_len))
+		if (f_last_f == &(flags->zero_len))
 		{
 			flags->zero = 0;
-			*last_flag = NULL;
+			f_last_f = NULL;
 			flags->spaces_len = (!flags->spaces_len && flags->zero_len) ?
 			flags->zero_len : flags->spaces_len;
 		}
@@ -44,32 +44,36 @@ t_flags		*create_flags(void)
 	flags->sign = 0;
 	flags->intzero = 0;
 	flags->ll = 0;
+	flags->hh = 0;
 	flags->hex = 0;
+	flags->last_flag = NULL;
 	return (flags);
 }
 
-void		set_flags(va_list *ap, t_flags *flags, char **c, int **last_flag)
+void		set_flags(va_list *ap, t_flags *flags, char **c)
 {
 	if (**c == '-')
-		set_last(flags, last_flag, **c);
+		set_last(flags, **c);
 	else if (**c == '+')
 		flags->plus = 1;
 	else if (**c == ' ')
 		flags->hidden = 1;
-	else if (**c == '0' && !*last_flag && !flags->minus)
-		set_last(flags, last_flag, **c);
+	else if (**c == '0' && !f_last_f && !flags->minus)
+		set_last(flags, **c);
 	else if (**c == '.')
-		set_last(flags, last_flag, **c);
+		set_last(flags, **c);
 	else if (**c == '*' || ft_isdigit(**c))
 	{
-		if (*last_flag)
-			**last_flag = (**c == '*' ? va_arg(*ap, int) : get_number(c));
+		if (f_last_f)
+			*f_last_f = (**c == '*' ? va_arg(*ap, int) : get_number(c));
 		else
 			flags->spaces_len = (**c == '*' ? va_arg(*ap, int) : get_number(c));
-		*last_flag = NULL;
+		f_last_f = NULL;
 	}
 	else if (**c == 'l')
 		flags->ll++;
+	else if (**c == 'h')
+		flags->hh++;
 	else if (**c == '#')
 		flags->hash = 1;
 	(*c)++;
@@ -88,8 +92,10 @@ void		reset_flags(t_flags *flags)
 	flags->sign = 0;
 	flags->intzero = 0;
 	flags->ll = 0;
+	flags->hh = 0;
 	flags->hex = 0;
 	flags->hash = 0;
+	flags->last_flag = NULL;
 }
 
 void		ignored_flag(t_flags *flags)

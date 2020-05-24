@@ -2,9 +2,18 @@
 #include "libftprintf.h"
 #include "libft.h"
 
+int		islongshort(va_list *ap, t_flags *flags, char **str)
+{
+	while (**str == 'l')
+		set_flags(ap, flags, str);
+	while (**str == 'h')
+		set_flags(ap, flags, str);
+	return (print_number(ap, flags, **str));
+}
+
 int		isspecs(char c)
 {
-	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'x' || c == 'X' || c == 'l')
+	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' || c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p')
 		return (c);
 	return (0);
 }
@@ -44,15 +53,13 @@ int get_number(char **arr)
 int 	check_params(char **str, va_list *ap, t_flags *flags)
 {
 	int		n;
-	int		*last_flag;
 
 	n = 0;
-	last_flag = NULL;
 	reset_flags(flags);
+	while (!isspecs(**str) && isflags(**str))
+		set_flags(ap, flags, str);
 	if (**str == '%')
 		return (ft_putchar(**str));
-	while (!isspecs(**str) && isflags(**str))
-		set_flags(ap, flags, str, &last_flag);
 	if (**str == 'c')
 		n = print_c(ap, flags);
 	else if (**str == 's')
@@ -61,7 +68,9 @@ int 	check_params(char **str, va_list *ap, t_flags *flags)
 		n = print_number(ap, flags, **str);
 	else if (**str == 'x' || **str == 'X')
 		n = print_number(ap, flags, **str);
-	else if (**str == 'l')
-		set_flags(ap, flags, str, &last_flag);
+	else if (**str == 'l' || **str == 'h')
+		n = islongshort(ap, flags, str);
+	else if (**str == 'p')
+		n = print_p(ap, flags);
 	return (n);
 }

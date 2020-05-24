@@ -1,11 +1,11 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int	ft_putunbr(unsigned n)
+int	ft_putunbr(unsigned long long n)
 {
-	long long	i;
-	long long	tmp;
-	int			len;
+	unsigned long long	i;
+	unsigned long long	tmp;
+	int					len;
 
 	if (n == 0)
 		return (ft_putchar('0'));
