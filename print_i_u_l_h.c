@@ -24,7 +24,7 @@ int				print_i(va_list *ap, t_flags *flags)
 	F_SIGN += (n = va_arg(*ap, int)) < 0 ? 1 : 0;
 	F_INTZERO = (n == 0) ? 1 : 0;
 	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOL_L))
+	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = len_number(flags, n);
 	if (F_SPACES_L && !F_MINUS)
@@ -41,6 +41,29 @@ int				print_i(va_list *ap, t_flags *flags)
 
 int				print_u(va_list *ap, t_flags *flags)
 {
+	unsigned			n;
+	int					len;
+	int					res;
+
+	res = 0;
+	n = va_arg(*ap, unsigned);
+	ignored_flags(flags);
+	if (!n && (F_DOT && !F_DOT_L))
+		return (print_sign(flags));
+	len = len_number(flags, n);
+	if (F_SPACES_L && !F_MINUS)
+		res += print_space_num(flags, len);
+	if (F_ZERO)
+		res += print_space_num(flags, len);
+	res += print_dot(flags, len);
+	res += ft_putnbr(n);
+	if (F_SPACES_L && F_MINUS)
+		res += print_space_num(flags, len);
+	return (res);
+}
+
+int				print_llu(va_list *ap, t_flags *flags)
+{
 	unsigned long long	n;
 	int					len;
 	int					res;
@@ -48,7 +71,7 @@ int				print_u(va_list *ap, t_flags *flags)
 	res = 0;
 	n = va_arg(*ap, unsigned long long);
 	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOL_L))
+	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = len_number(flags, n);
 	if (F_SPACES_L && !F_MINUS)
@@ -72,7 +95,7 @@ int				print_lli(va_list *ap, t_flags *flags)
 	F_SIGN += (n = va_arg(*ap, long long)) < 0 ? 1 : 0;
 	F_INTZERO = (n == 0) ? 1 : 0;
 	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOL_L))
+	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = len_number(flags, n);
 	if (F_SPACES_L && !F_MINUS)
@@ -97,7 +120,7 @@ int				print_hhi(va_list *ap, t_flags *flags)
 	F_SIGN += (n = va_arg(*ap, int)) < 0 ? 1 : 0;
 	F_INTZERO = (n == 0) ? 1 : 0;
 	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOL_L))
+	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = len_number(flags, n);
 	if (F_SPACES_L && !F_MINUS)

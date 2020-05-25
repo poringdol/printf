@@ -52,9 +52,9 @@ void	ifnegative(t_flags *flags)
 		F_SPACES_L = F_SPACES_L < 0 ? -F_SPACES_L : F_SPACES_L;
 		F_MINUS = 1;
 	}
-	if (F_DOL_L < 0 && (F_DOL_L < F_SPACES_L || F_DOL_L < F_ZERO_L))
+	if (F_DOT_L < 0 && (F_DOT_L < F_SPACES_L || F_DOT_L < F_ZERO_L))
 	{
-		F_DOL_L = 0;
+		F_DOT_L = 0;
 		F_DOT = 0;
 	}
 }

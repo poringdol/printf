@@ -58,13 +58,14 @@ t_flags		*create_flags(void)
 	flags->ll = 0;
 	flags->hh = 0;
 	flags->hex = 0;
+	flags->oct = 0;
 	flags->last_flag = NULL;
 	return (flags);
 }
 
 void		set_flags(va_list *ap, t_flags *flags, char **c)
 {
-	if (**c == '-')
+	if (**c == '-' && !F_DOT)
 		set_last(flags, **c);
 	else if (**c == '+')
 		flags->plus = 1;
@@ -106,6 +107,7 @@ void		reset_flags(t_flags *flags)
 	flags->ll = 0;
 	flags->hh = 0;
 	flags->hex = 0;
+	flags->oct = 0;
 	flags->hash = 0;
 	flags->last_flag = NULL;
 }

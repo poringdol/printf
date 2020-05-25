@@ -34,8 +34,8 @@ static int		print_null(t_flags *flags)
 	int		len;
 
 	len = ft_strlen("(null)");
-	if (F_DOT && F_DOL_L < len)
-		len = F_DOL_L;
+	if (F_DOT && F_DOT_L < len)
+		len = F_DOT_L;
 	spaces = F_SPACES_L - len;
 	if (F_SPACES_L)
 	{
@@ -48,17 +48,22 @@ static int		print_null(t_flags *flags)
 
 int				print_s(va_list *ap, t_flags *flags)
 {
+	int		n;
 	int		len;
 	int		spaces;
 	char	*string;
 
+	n = 0;
 	if (!(string = va_arg(*ap, char *)))
 		return (print_null(flags));
+	ignored_flags(flags);
+	n += print_space_ch(F_ZERO_L - ft_strlen(string), '0');
 	if (F_DOT)
-		len = (F_DOL_L < (int)ft_strlen(string) ? F_DOL_L : ft_strlen(string));
+		len = (F_DOT_L < (int)ft_strlen(string) ? F_DOT_L : ft_strlen(string));
 	else
 		len = ft_strlen(string);
 	spaces = F_SPACES_L - len;
-	return (F_MINUS ? (ft_putnstr(string, len) + print_space_ch(spaces, ' ')) :
+	n += (F_MINUS ? (ft_putnstr(string, len) + print_space_ch(spaces, ' ')) :
 	print_space_ch(spaces, ' ') + ft_putnstr(string, len));
+	return (n);
 }

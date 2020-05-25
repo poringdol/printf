@@ -14,25 +14,52 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static char	*convert_x(va_list *ap, t_flags *flags, char c)
+static char	*convert_llx(va_list *ap, t_flags *flags, char c)
 {
-	int			j;
-	int			len;
-	long long	n;
-	char		*buf;
+	int					j;
+	int					len;
+	unsigned long long	n;
+	char				*buf;
 
 	j = 0;
 	buf = (char *)ft_calloc(60, 1);
-	if ((n = va_arg(*ap, long long)) < 0)
-		buf[j++] = '-';
+	n = va_arg(*ap, unsigned long long);
 	buf[0] += (n == 0) ? '0' : 0;
 	while (n)
 	{
 		buf[j++] = (n % 16 < 10) ? n % 16 + '0' : n % 16 - 10 + 'a';
 		n /= 16;
 	}
-	j = (buf[0] == '-') ? 1 : 0;
-	len = (buf[0] == '-') ? ft_strlen(buf) - 1 : ft_strlen(buf);
+	j = 0;
+	len = ft_strlen(buf);
+	while (j < len / 2)
+	{
+		n = (int)buf[j];
+		buf[j] = buf[len - j - 1];
+		buf[len - 1 - j++] = (char)n;
+	}
+	F_INTZERO = (buf[0] == '0') ? 1 : 0;
+	return ((c == 'X') ? ft_strupcase(buf) : buf);
+}
+
+static char	*convert_x(va_list *ap, t_flags *flags, char c)
+{
+	int					j;
+	int					len;
+	unsigned			n;
+	char				*buf;
+
+	j = 0;
+	buf = (char *)ft_calloc(60, 1);
+	n = va_arg(*ap, unsigned);
+	buf[0] += (n == 0) ? '0' : 0;
+	while (n)
+	{
+		buf[j++] = (n % 16 < 10) ? n % 16 + '0' : n % 16 - 10 + 'a';
+		n /= 16;
+	}
+	j = 0;
+	len = ft_strlen(buf);
 	while (j < len / 2)
 	{
 		n = (int)buf[j];
@@ -45,52 +72,83 @@ static char	*convert_x(va_list *ap, t_flags *flags, char c)
 
 int			print_p(va_list *ap, t_flags *flags)
 {
-	int			len;
-	int			res;
-	char		*number;
+	int					len;
+	int					res;
+	char				*num;
 
 	res = 0;
 	F_HEX = 1;
 	F_HASH = 1;
-	number = convert_x(ap, flags, 'x');
+	num = convert_llx(ap, flags, 'x');
 	ignored_flags(flags);
-	len = (number[0] == '0' && F_DOT && !F_DOL_L) ? 2 : ft_strlen(number) + 2;
+	len = (F_INTZERO && F_DOT && !F_DOT_L) ? 2 : ft_strlen(num) + 2;
+	if (F_INTZERO && F_DOT && F_DOT_L > F_SPACES_L)
+		return (ft_putstr("0x") + print_dot(flags, 0));
+	else if (F_INTZERO && F_ZERO_L && !F_DOT && !F_SPACES_L)
+		return (ft_putstr("0x") + print_space_ch(F_ZERO_L - 2, '0'));
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
-	if (number[0] == '0' && (F_DOT && !F_DOL_L))
+	if (num[0] == '0' && (F_DOT && !F_DOT_L))
 		return (ft_putstr("0x") + res);
 	res += plus_minus(flags, 1, 'x');
 	if (F_ZERO)
 		res += print_space_num(flags, len);
 	res += print_dot(flags, len);
-	res += (number[0] == '0') ? ft_putstr("0x0") : ft_putstr(number);
+	res += (num[0] == '0') ? ft_putstr("0x0") : ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, len);
-	free(number);
+	free(num);
 	return (res);
 }
 
 int			print_x(va_list *ap, t_flags *flags, char c)
 {
-	int			len;
-	int			res;
-	char		*num;
+	int					len;
+	int					res;
+	char				*num;
 
 	res = 0;
 	F_HEX = 1;
 	num = convert_x(ap, flags, c);
-	F_SIGN += (num[0] == '-') ? 1 : 0;
 	ignored_flags(flags);
-	if (num[0] == '0' && (F_DOT && !F_DOL_L))
+	if (num[0] == '0' && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = F_HASH ? ft_strlen(num) + 2 : ft_strlen(num);
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
-	res += (num[0] == '-') ? plus_minus(flags, -1, c) : plus_minus(flags, 1, c);
+	res += plus_minus(flags, 1, c);
 	if (F_ZERO)
 		res += print_space_num(flags, len);
 	res += print_dot(flags, len);
-	if (num[0] == 0 && !(F_DOT && !F_DOL_L))
+	if (num[0] == 0 && !(F_DOT && !F_DOT_L))
+		res += ft_putchar('0');
+	res += ft_putstr(num);
+	if (F_SPACES_L && F_MINUS)
+		res += print_space_num(flags, len);
+	free(num);
+	return (res);
+}
+
+int			print_llx(va_list *ap, t_flags *flags, char c)
+{
+	int					len;
+	int					res;
+	char				*num;
+
+	res = 0;
+	F_HEX = 1;
+	num = convert_llx(ap, flags, c);
+	ignored_flags(flags);
+	if (num[0] == '0' && (F_DOT && !F_DOT_L))
+		return (print_sign(flags));
+	len = F_HASH ? ft_strlen(num) + 2 : ft_strlen(num);
+	if (F_SPACES_L && !F_MINUS)
+		res += print_space_num(flags, len);
+	res += plus_minus(flags, 1, c);
+	if (F_ZERO)
+		res += print_space_num(flags, len);
+	res += print_dot(flags, len);
+	if (num[0] == 0 && !(F_DOT && !F_DOT_L))
 		res += ft_putchar('0');
 	res += ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)

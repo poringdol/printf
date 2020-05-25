@@ -21,14 +21,14 @@ int	check_params(char **str, va_list *ap, t_flags *flags, int n)
 		set_flags(ap, flags, str);
 	ifnegative(flags);
 	if (**str == '%')
-		return (print_percent(flags));
+		return (n += print_percent(flags));
 	if (**str == 'c')
 		n += print_c(ap, flags);
 	else if (**str == 's')
 		n += print_s(ap, flags);
 	else if (**str == 'i' || **str == 'd' || **str == 'u')
 		n += print_number(ap, flags, **str);
-	else if (**str == 'x' || **str == 'X')
+	else if (**str == 'x' || **str == 'X' || **str == 'o')
 		n += print_number(ap, flags, **str);
 	else if (**str == 'l' || **str == 'h')
 		n += islongshort(ap, flags, str);
@@ -36,5 +36,9 @@ int	check_params(char **str, va_list *ap, t_flags *flags, int n)
 		n += print_p(ap, flags);
 	else if (**str == 'n')
 		*(va_arg(*ap, int *)) = n;
+	else if (F_SPACES_L)
+		n += print_space_ch(F_SPACES_L, ' ');
+	else
+		n += ft_putchar(**str);
 	return (n);
 }

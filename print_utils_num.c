@@ -21,20 +21,20 @@ int	print_space_num(t_flags *flags, int len)
 	int	space;
 
 	i = 0;
-	if (F_SPACES_L > F_DOL_L)
+	if (F_SPACES_L > F_DOT_L)
 	{
-		space = F_SPACES_L - ((F_DOL_L > len) ? F_DOL_L : len);
-		space -= (F_SIGN && F_DOT && F_DOL_L >= len) ? 1 : 0;
+		space = F_SPACES_L - ((F_DOT_L > len) ? F_DOT_L : len);
+		space -= (F_SIGN && F_DOT && F_DOT_L >= len) ? 1 : 0;
 		while (i < space)
 		{
 			ft_putchar(' ');
 			i++;
 		}
 	}
-	if (F_ZERO_L > F_DOL_L)
+	if (F_ZERO_L > F_DOT_L)
 	{
-		space = F_ZERO_L - (F_DOL_L ? F_DOL_L : len);
-		while (i < F_ZERO_L - F_DOL_L - len)
+		space = F_ZERO_L - (F_DOT_L ? F_DOT_L : len);
+		while (i < F_ZERO_L - F_DOT_L - len)
 		{
 			ft_putchar('0');
 			i++;
@@ -45,7 +45,7 @@ int	print_space_num(t_flags *flags, int len)
 
 int	plus_minus(t_flags *flags, long long n, int c)
 {
-	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOL_L)) ||
+	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L)) ||
 	(F_MINUS && !(F_SPACES_L)) || (F_PLUS && !(F_SPACES_L))))
 		return (0);
 	if (F_PLUS && n >= 0)
@@ -54,8 +54,10 @@ int	plus_minus(t_flags *flags, long long n, int c)
 		return (ft_putchar(' '));
 	if (n < 0)
 		return (ft_putchar('-'));
-	if (F_HASH)
+	if (F_HASH && F_HEX)
 		return (c == 'x' ? ft_putstr("0x") : ft_putstr("0X"));
+	if (F_HASH && F_OCT)
+		return (ft_putchar('0'));
 	return (0);
 }
 
@@ -65,7 +67,7 @@ int	print_dot(t_flags *flags, int len)
 	int	dot;
 
 	i = 0;
-	dot = F_DOL_L - len;
+	dot = F_DOT_L - len;
 	if (F_SIGN)
 		dot++;
 	while (i < dot)
@@ -102,12 +104,11 @@ int	print_percent(t_flags *flags)
 	int	res;
 
 	res = 0;
-	ignored_flags(flags);
-	if (F_SPACES_L && !F_MINUS)
+	// ignored_flags(flags);
+	F_DOT = 0;
+	F_DOT_L = 0;
+	if ((F_SPACES_L && !F_MINUS) || F_ZERO_L)
 		res += print_space_num(flags, 1);
-	if (F_ZERO)
-		res += print_space_num(flags, 1);
-	res += print_dot(flags, 1);
 	res += ft_putchar('%');
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, 1);

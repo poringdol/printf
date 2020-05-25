@@ -18,11 +18,14 @@ int			print_c(va_list *ap, t_flags *flags)
 {
 	int spaces;
 	int	n;
+	int ch;
 
+	n = 0;
+	ch = va_arg(*ap, int);
 	spaces = flags->spaces_len - 1;
-	n = flags->minus ? (ft_putchar(va_arg(*ap, int)) +
-	print_space_ch(spaces, ' ')) :
-	print_space_ch(spaces, ' ') + ft_putchar(va_arg(*ap, int));
+	n += print_space_ch(F_ZERO_L - 1, '0');
+	n += flags->minus ? (ft_putchar(ch) + print_space_ch(spaces, ' ')) :
+	print_space_ch(spaces, ' ') + ft_putchar(ch);
 	return (n);
 }
 

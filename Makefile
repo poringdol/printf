@@ -27,6 +27,7 @@ SRC = ft_printf.c\
 	  print_s.c\
 	  print_i_u_l_h.c\
 	  print_p_x.c\
+	  print_o.c\
 	  print_utils_num.c\
 	  util_number.c
 
@@ -36,6 +37,8 @@ OBJS = $(SRC:.c=.o)
 OBJDIR = ./objects/
 OBJ = $(addprefix $(OBJDIR), $(OBJS))
 
+DEP = $(OBJ:.o=.d)
+
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
@@ -43,16 +46,39 @@ $(NAME): $(OBJ) $(LIBFT)
 	@$(AR) $(NAME) $(OBJ)
 	@echo "$(PURPLE)  Library $(NAME) created  $(B&W)"
 
-$(OBJDIR)%.o: $(SRCDIR)%.c $(HEADER)
+-include $(DEP)
+
+bonus: $(NAME)
+
+$(OBJDIR)%.o: $(SRCDIR)%.c
 	@test -d $(OBJDIR) || mkdir $(OBJDIR)
-	@$(CC) -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -c $< -o $@ $(FLAGS)
-	@echo "$(GREEN)  Object file $@created  $(B&W)"
+	@$(CC) -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -MMD -c $< -o $@ $(FLAGS)
+	@echo "$(GREEN)  Object file$(PURPLE) $@ $(GREEN)created  $(B&W)"
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)
 
-#test: $(NAME)
-#	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ $(FLAGS)
+#test:
+#	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ -ggdb
+#c:
+#	@$(CC) main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./c
+#s:
+#	@$(CC) main_s.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./s
+#i:
+#	@$(CC) main_i.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./i
+#d:
+#	@$(CC) main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./d
+#u:
+#	@$(CC) main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./u
+#x:
+#	@$(CC) main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./x
+#bigx:
+#	@$(CC) main_bigx.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./bigx
+#p:
+#	@$(CC) main_p.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./p
+#wf:
+#	@$(CC) main_without_flags.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./wf
+#tests: c s d i u p wf x bigx
 
 clean:
 	@$(MAKE) clean -C $(LIBFTDIR)
@@ -61,8 +87,8 @@ clean:
 fclean:
 	@$(MAKE) fclean -C $(LIBFTDIR)
 	@$(RM) $(OBJDIR) $(NAME) test
-	@echo "$(RED)  Library: $(NAME) deleted  $(B&W)"
+	@echo "$(RED)  Library $(NAME) deleted  $(B&W)"
 
 re: fclean $(LIBFT) all
 
-.PHONY: all clean fclean re test 
+.PHONY: all bonus clean fclean re test
