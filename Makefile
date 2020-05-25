@@ -53,7 +53,7 @@ bonus: $(NAME)
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	@test -d $(OBJDIR) || mkdir $(OBJDIR)
 	@$(CC) -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -MMD -c $< -o $@ $(FLAGS)
-	@echo "$(GREEN)  Object file$(PURPLE) $@ $(GREEN)created  $(B&W)"
+	@echo "$(GREEN)  Object file $(PURPLE)$@ $(GREEN)created  $(B&W)"
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)

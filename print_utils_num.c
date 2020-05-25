@@ -6,7 +6,7 @@
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 11:32:11 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/05/24 11:32:14 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/05/26 00:41:05 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	print_percent(t_flags *flags)
 	int	res;
 
 	res = 0;
-	// ignored_flags(flags);
 	F_DOT = 0;
 	F_DOT_L = 0;
 	if ((F_SPACES_L && !F_MINUS) || F_ZERO_L)

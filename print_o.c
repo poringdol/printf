@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_o.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/05/26 00:40:38 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/05/26 00:41:38 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libftprintf.h"
 #include "libft.h"
@@ -34,7 +46,7 @@ static char	*convert_o(va_list *ap, t_flags *flags)
 {
 	int					j;
 	int					len;
-	unsigned        	n;
+	unsigned			n;
 	char				*buf;
 
 	j = 0;

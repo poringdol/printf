@@ -22,6 +22,8 @@ static char	*convert_llx(va_list *ap, t_flags *flags, char c)
 	char				*buf;
 
 	j = 0;
+	F_HEX = 1;
+	F_HASH = (c == 'p') ? 1 : F_HASH;
 	buf = (char *)ft_calloc(60, 1);
 	n = va_arg(*ap, unsigned long long);
 	buf[0] += (n == 0) ? '0' : 0;
@@ -30,13 +32,12 @@ static char	*convert_llx(va_list *ap, t_flags *flags, char c)
 		buf[j++] = (n % 16 < 10) ? n % 16 + '0' : n % 16 - 10 + 'a';
 		n /= 16;
 	}
-	j = 0;
 	len = ft_strlen(buf);
-	while (j < len / 2)
+	while ((int)n < len / 2)
 	{
-		n = (int)buf[j];
-		buf[j] = buf[len - j - 1];
-		buf[len - 1 - j++] = (char)n;
+		j = (int)buf[j];
+		buf[n] = buf[len - n - 1];
+		buf[len - 1 - n++] = (char)j;
 	}
 	F_INTZERO = (buf[0] == '0') ? 1 : 0;
 	return ((c == 'X') ? ft_strupcase(buf) : buf);
@@ -50,6 +51,7 @@ static char	*convert_x(va_list *ap, t_flags *flags, char c)
 	char				*buf;
 
 	j = 0;
+	F_HEX = 1;
 	buf = (char *)ft_calloc(60, 1);
 	n = va_arg(*ap, unsigned);
 	buf[0] += (n == 0) ? '0' : 0;
@@ -58,13 +60,12 @@ static char	*convert_x(va_list *ap, t_flags *flags, char c)
 		buf[j++] = (n % 16 < 10) ? n % 16 + '0' : n % 16 - 10 + 'a';
 		n /= 16;
 	}
-	j = 0;
 	len = ft_strlen(buf);
-	while (j < len / 2)
+	while ((int)n < len / 2)
 	{
-		n = (int)buf[j];
-		buf[j] = buf[len - j - 1];
-		buf[len - 1 - j++] = (char)n;
+		j = (int)buf[n];
+		buf[n] = buf[len - n - 1];
+		buf[len - 1 - n++] = (char)j;
 	}
 	F_INTZERO = (buf[0] == '0') ? 1 : 0;
 	return ((c == 'X') ? ft_strupcase(buf) : buf);
@@ -77,9 +78,7 @@ int			print_p(va_list *ap, t_flags *flags)
 	char				*num;
 
 	res = 0;
-	F_HEX = 1;
-	F_HASH = 1;
-	num = convert_llx(ap, flags, 'x');
+	num = convert_llx(ap, flags, 'p');
 	ignored_flags(flags);
 	len = (F_INTZERO && F_DOT && !F_DOT_L) ? 2 : ft_strlen(num) + 2;
 	if (F_INTZERO && F_DOT && F_DOT_L > F_SPACES_L)
@@ -108,8 +107,8 @@ int			print_x(va_list *ap, t_flags *flags, char c)
 	char				*num;
 
 	res = 0;
-	F_HEX = 1;
 	num = convert_x(ap, flags, c);
+	F_HEX = 1;
 	ignored_flags(flags);
 	if (num[0] == '0' && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
@@ -136,7 +135,6 @@ int			print_llx(va_list *ap, t_flags *flags, char c)
 	char				*num;
 
 	res = 0;
-	F_HEX = 1;
 	num = convert_llx(ap, flags, c);
 	ignored_flags(flags);
 	if (num[0] == '0' && (F_DOT && !F_DOT_L))
