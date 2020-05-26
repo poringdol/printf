@@ -14,6 +14,23 @@
 #include "libftprintf.h"
 #include "libft.h"
 
+static int	print_hash(t_flags *flags)
+{
+	int n;
+
+	n = 0;
+	ignored_flags(flags);
+	if (F_SPACES_L && !F_MINUS)
+		n += print_space_num(flags, 1);
+	n += ft_putchar('0');
+	if (F_ZERO)
+		n += print_space_num(flags, 1);
+	n += print_dot(flags, 1);
+	if (F_SPACES_L && F_MINUS)
+		n += print_space_num(flags, 1);
+	return (n);
+}
+
 static char	*convert_llo(va_list *ap, t_flags *flags)
 {
 	int					j;
@@ -79,8 +96,10 @@ int			print_o(va_list *ap, t_flags *flags, char c)
 	res = 0;
 	F_OCT = 1;
 	num = convert_o(ap, flags);
+	if (F_HASH && F_INTZERO && F_DOT)
+		return (print_hash(flags));
 	ignored_flags(flags);
-	if (num[0] == '0' && (F_DOT && !F_DOT_L))
+	if (F_INTZERO && F_DOT && !F_DOT_L && !F_HASH)
 		return (print_sign(flags));
 	len = F_HASH ? ft_strlen(num) + 1 : ft_strlen(num);
 	if (F_SPACES_L && !F_MINUS)
@@ -89,7 +108,7 @@ int			print_o(va_list *ap, t_flags *flags, char c)
 	if (F_ZERO)
 		res += print_space_num(flags, len);
 	res += print_dot(flags, len);
-	if (num[0] == 0 && !(F_DOT && !F_DOT_L))
+	if (F_INTZERO && F_DOT && !F_DOT_L)
 		res += ft_putchar('0');
 	res += ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)

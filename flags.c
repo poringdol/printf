@@ -132,6 +132,6 @@ void		ignored_flags(t_flags *flags)
 		flags->sign = 1;
 	if (flags->hash && flags->intzero)
 		flags->hash = 0;
-	if (flags->hash && !flags->intzero && flags->dot)
+	if (flags->hash && !flags->intzero && flags->dot && flags->hex)
 		flags->dot_len += 2;
 }

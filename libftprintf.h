@@ -71,6 +71,7 @@ int				print_o(va_list *ap, t_flags *flags, char c);
 int				print_llo(va_list *ap, t_flags *flags, char c);
 int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
+int				nospec(t_flags *flags, char c);
 int				check_params(char **format, va_list *ap, t_flags *flags, int n);
 int				print_space_ch(int n, int c);
 int				print_space_num(t_flags *flags, int len);

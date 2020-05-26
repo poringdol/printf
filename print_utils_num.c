@@ -81,35 +81,35 @@ int	print_dot(t_flags *flags, int len)
 int	print_sign(t_flags *flags)
 {
 	int	len;
-	int	res;
+	int	n;
 
 	if (!F_SPACES_L && !F_ZERO_L && !F_PLUS && !F_HIDDEN)
 		return (0);
-	res = 0;
+	n = 0;
 	len = F_SIGN ? 1 : 0;
 	F_SPACES_L -= (F_SIGN ? 0 : 1);
 	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
-	res += F_PLUS ? ft_putchar('+') : ft_putchar(' ');
+		n += print_space_num(flags, len);
+	n += F_PLUS ? ft_putchar('+') : ft_putchar(' ');
 	if (F_ZERO)
-		res += print_space_num(flags, len);
-	res += print_dot(flags, len);
+		n += print_space_num(flags, len);
+	n += print_dot(flags, len);
 	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
-	return (res);
+		n += print_space_num(flags, len);
+	return (n);
 }
 
 int	print_percent(t_flags *flags)
 {
-	int	res;
+	int	n;
 
-	res = 0;
+	n = 0;
 	F_DOT = 0;
 	F_DOT_L = 0;
 	if ((F_SPACES_L && !F_MINUS) || F_ZERO_L)
-		res += print_space_num(flags, 1);
-	res += ft_putchar('%');
+		n += print_space_num(flags, 1);
+	n += ft_putchar('%');
 	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, 1);
-	return (res);
+		n += print_space_num(flags, 1);
+	return (n);
 }

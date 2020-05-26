@@ -38,3 +38,20 @@ int			print_space_ch(int n, int c)
 		ft_putchar(c);
 	return (n > 0 ? n : 0);
 }
+
+int			nospec(t_flags *flags, char c)
+{
+	int	res;
+
+	res = 0;
+	F_SPACES_L = ft_isgraph(c) ? F_SPACES_L - 1 : F_SPACES_L;
+	F_ZERO_L = ft_isgraph(c) ? F_ZERO_L - 1 : F_ZERO_L;
+	if (F_SPACES_L && !F_MINUS && F_SPACES_L > F_ZERO_L)
+		res += print_space_ch(F_SPACES_L, ' ');
+	if (F_ZERO_L > F_SPACES_L)
+		res += print_space_ch(F_ZERO_L, '0');;
+	res += ft_isgraph(c) ? ft_putchar(c) : 0;
+	if (F_SPACES_L && F_MINUS && F_SPACES_L > F_ZERO_L)
+		res += print_space_ch(F_SPACES_L, ' ');
+	return (res);
+}

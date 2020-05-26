@@ -58,27 +58,27 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)
 
-#test:
-#	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ -ggdb
-#c:
-#	@$(CC) main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./c
-#s:
-#	@$(CC) main_s.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./s
-#i:
-#	@$(CC) main_i.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./i
-#d:
-#	@$(CC) main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./d
-#u:
-#	@$(CC) main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./u
-#x:
-#	@$(CC) main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./x
-#bigx:
-#	@$(CC) main_bigx.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./bigx
-#p:
-#	@$(CC) main_p.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./p
-#wf:
-#	@$(CC) main_without_flags.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./wf
-#tests: c s d i u p wf x bigx
+test:
+	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ -ggdb
+c:
+	@$(CC) main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./c
+s:
+	@$(CC) main_s.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./s
+i:
+	@$(CC) main_i.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./i
+d:
+	@$(CC) main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./d
+u:
+	@$(CC) main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./u
+x:
+	@$(CC) main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./x
+bigx:
+	@$(CC) main_bigx.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./bigx
+p:
+	@$(CC) main_p.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./p
+wf:
+	@$(CC) main_without_flags.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./wf
+tests: c s d i u p wf x bigx
 
 clean:
 	@$(MAKE) clean -C $(LIBFTDIR)

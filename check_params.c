@@ -36,8 +36,8 @@ int	check_params(char **str, va_list *ap, t_flags *flags, int n)
 		n += print_p(ap, flags);
 	else if (**str == 'n')
 		*(va_arg(*ap, int *)) = n;
-	else if (F_SPACES_L)
-		n += print_space_ch(F_SPACES_L, ' ');
+	else if (F_SPACES_L || F_DOT_L || F_ZERO_L)
+		n += nospec(flags, **str);
 	else
 		n += ft_putchar(**str);
 	return (n);

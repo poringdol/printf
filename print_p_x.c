@@ -35,7 +35,7 @@ static char	*convert_llx(va_list *ap, t_flags *flags, char c)
 	len = ft_strlen(buf);
 	while ((int)n < len / 2)
 	{
-		j = (int)buf[j];
+		j = (int)buf[n];
 		buf[n] = buf[len - n - 1];
 		buf[len - 1 - n++] = (char)j;
 	}
