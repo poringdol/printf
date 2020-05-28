@@ -90,7 +90,7 @@ int	print_sign(t_flags *flags)
 	F_SPACES_L -= (F_SIGN || F_UNSIGN) ? 0 : 1;
 	if (F_SPACES_L && !F_MINUS)
 		n += print_space_num(flags, len);
-	if ((F_UNSIGN && F_DOT_L) || (F_SPACES_L && F_SIGN && !F_UNSIGN))
+	if ((F_UNSIGN && F_DOT_L) || !F_UNSIGN)
 		n += F_PLUS ? ft_putchar('+') : ft_putchar(' ');
 	if (F_ZERO)
 		n += print_space_num(flags, len);
