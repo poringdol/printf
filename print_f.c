@@ -38,8 +38,6 @@ int			print_f(va_list *ap, t_flags *flags)
 	res = 0;
 	F_SIGN += (n = va_arg(*ap, double)) < 0 ? 1 : 0;
 	F_INTZERO = (n == 0) ? 1 : 0;
-	float nn=-3.85;
-	n=nn;
 	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = len_number(flags, n) + F_DOT_L;

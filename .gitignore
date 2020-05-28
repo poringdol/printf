@@ -7,3 +7,4 @@ libprintf.a
 /pft
 pft_2019/
 pft/
+.DS*
