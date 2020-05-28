@@ -58,10 +58,9 @@ int				print_s(va_list *ap, t_flags *flags)
 		return (print_null(flags));
 	ignored_flags(flags);
 	n += print_space_ch(F_ZERO_L - ft_strlen(string), '0');
+	len = ft_strlen(string);
 	if (F_DOT)
-		len = (F_DOT_L < (int)ft_strlen(string) ? F_DOT_L : ft_strlen(string));
-	else
-		len = ft_strlen(string);
+		len = (F_DOT_L < len) ? F_DOT_L : len;
 	spaces = F_SPACES_L - len;
 	n += (F_MINUS ? (ft_putnstr(string, len) + print_space_ch(spaces, ' ')) :
 	print_space_ch(spaces, ' ') + ft_putnstr(string, len));

@@ -5,7 +5,7 @@ RED =  \033[0;31m
 GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
-CC = clang
+CC = gcc
 FLAGS = -Wall -Werror -Wextra -ggdb
 AR = ar rs
 RM = rm -rf
@@ -25,9 +25,11 @@ SRC = ft_printf.c\
 	  flags.c\
 	  print_c.c\
 	  print_s.c\
-	  print_i_u_l_h.c\
+	  print_i.c\
+	  print_u.c\
 	  print_p_x.c\
 	  print_o.c\
+	  print_f.c\
 	  print_utils_num.c\
 	  util_number.c
 
@@ -58,27 +60,31 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 $(LIBFT):
 	@$(MAKE) -C $(LIBFTDIR)
 
+############################# TEST ###############################
 test:
-	$(CC) main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -L./ -lftprintf -o $@ -ggdb
+	@$(CC) ./test/main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/test
 c:
-	@$(CC) main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./c
+	@$(CC) ./test/main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/c
 s:
-	@$(CC) main_s.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./s
+	@$(CC) ./test/main_s.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/s
 i:
-	@$(CC) main_i.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./i
+	@$(CC) ./test/main_i.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/i
 d:
-	@$(CC) main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./d
+	@$(CC) ./test/main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/d
 u:
-	@$(CC) main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./u
+	@$(CC) ./test/main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/u
+lu:
+	@$(CC) ./test/main_lu.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/lu
 x:
-	@$(CC) main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./x
+	@$(CC) ./test/main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/x
 bigx:
-	@$(CC) main_bigx.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./bigx
+	@$(CC) ./test/main_bigx.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/bigx
 p:
-	@$(CC) main_p.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./p
+	@$(CC) ./test/main_p.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/p
 wf:
-	@$(CC) main_without_flags.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o $@ && ./wf
-tests: c s d i u p wf x bigx
+	@$(CC) ./test/main_without_flags.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/wf
+tests: all c s d i u p wf x bigx lu
+###################################################################
 
 clean:
 	@$(MAKE) clean -C $(LIBFTDIR)
@@ -86,9 +92,9 @@ clean:
 
 fclean:
 	@$(MAKE) fclean -C $(LIBFTDIR)
-	@$(RM) $(OBJDIR) $(NAME) test
+	@$(RM) $(OBJDIR) $(NAME) ./test/test ./test/c ./test/d ./test/i ./test/p ./test/s ./test/u ./test/wf ./test/x ./test/tests ./test/lu ./test/bigx
 	@echo "$(RED)  Library $(NAME) deleted  $(B&W)"
 
 re: fclean $(LIBFT) all
 
-.PHONY: all bonus clean fclean re test
+.PHONY: all bonus clean fclean re test c d i p s u wf x tests lu

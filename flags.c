@@ -58,6 +58,7 @@ t_flags		*create_flags(void)
 	flags->ll = 0;
 	flags->hh = 0;
 	flags->hex = 0;
+	flags->unsign = 0;
 	flags->oct = 0;
 	flags->last_flag = NULL;
 	return (flags);
@@ -107,6 +108,7 @@ void		reset_flags(t_flags *flags)
 	flags->ll = 0;
 	flags->hh = 0;
 	flags->hex = 0;
+	flags->unsign = 0;
 	flags->oct = 0;
 	flags->hash = 0;
 	flags->last_flag = NULL;
@@ -134,4 +136,9 @@ void		ignored_flags(t_flags *flags)
 		flags->hash = 0;
 	if (flags->hash && !flags->intzero && flags->dot && flags->hex)
 		flags->dot_len += 2;
+	if (flags->unsign && flags->plus)
+	{
+		flags->plus = 0;
+		flags->hidden = 1;
+	}
 }

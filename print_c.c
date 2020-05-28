@@ -49,7 +49,7 @@ int			nospec(t_flags *flags, char c)
 	if (F_SPACES_L && !F_MINUS && F_SPACES_L > F_ZERO_L)
 		res += print_space_ch(F_SPACES_L, ' ');
 	if (F_ZERO_L > F_SPACES_L)
-		res += print_space_ch(F_ZERO_L, '0');;
+		res += print_space_ch(F_ZERO_L, '0');
 	res += ft_isgraph(c) ? ft_putchar(c) : 0;
 	if (F_SPACES_L && F_MINUS && F_SPACES_L > F_ZERO_L)
 		res += print_space_ch(F_SPACES_L, ' ');

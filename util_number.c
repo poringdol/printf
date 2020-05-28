@@ -16,28 +16,30 @@
 
 int	print_number(va_list *ap, t_flags *flags, char c)
 {
-	int			i;
+	int					n;
 
-	i = 0;
+	n = 0;
 	if ((c == 'd' || c == 'i') && F_LL)
-		i += print_lli(ap, flags);
+		n += print_lli(ap, flags);
 	else if ((c == 'd' || c == 'i') && F_HH)
-		i += print_hhi(ap, flags);
+		n += print_hhi(ap, flags);
 	else if ((c == 'd' || c == 'i'))
-		i += print_i(ap, flags);
+		n += print_i(ap, flags);
 	else if (c == 'u' && F_LL)
-		i += print_llu(ap, flags);
+		n += F_LL == 1 ? print_lu(ap, flags) : print_llu(ap, flags);
 	else if (c == 'u')
-		i += print_u(ap, flags);
+		n += print_u(ap, flags);
 	else if ((c == 'x' || c == 'X') && F_LL)
-		i += print_llx(ap, flags, c);
+		n += print_llx(ap, flags, c);
 	else if (c == 'x' || c == 'X')
-		i += print_x(ap, flags, c);
+		n += print_x(ap, flags, c);
 	else if ((c == 'o') && F_LL)
-		i += print_llo(ap, flags, c);
+		n += print_llo(ap, flags, c);
 	else if (c == 'o')
-		i += print_o(ap, flags, c);
-	return (i);
+		n += print_o(ap, flags, c);
+	else if (c == 'f')
+		n += print_f(ap, flags);
+	return (n);
 }
 
 int	put_number(long long n)
@@ -52,9 +54,9 @@ int	put_number(long long n)
 
 int	len_number(t_flags *flags, long long n)
 {
-	long long	i;
-	long long	tmp;
-	int			len;
+	long long			i;
+	long long			tmp;
+	int					len;
 
 	len = !flags->sign ? 0 : 1;
 	if (n == LLONG_MIN)
@@ -66,6 +68,21 @@ int	len_number(t_flags *flags, long long n)
 		if (i * 10 < i)
 			return (19);
 		i *= 10;
+		len++;
+	}
+	return (n ? len : ++len);
+}
+
+int	len_unumber(unsigned long long n)
+{
+	int					len;
+	unsigned long long	tmp;
+
+	tmp = n;
+	len = 0;
+	while (tmp)
+	{
+		tmp /= 10;
 		len++;
 	}
 	return (n ? len : ++len);

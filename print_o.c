@@ -102,17 +102,14 @@ int			print_o(va_list *ap, t_flags *flags, char c)
 	if (F_INTZERO && F_DOT && !F_DOT_L && !F_HASH)
 		return (print_sign(flags));
 	len = F_HASH ? ft_strlen(num) + 1 : ft_strlen(num);
-	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
+	res += (F_SPACES_L && !F_MINUS) ? print_space_num(flags, len) : 0;
 	res += plus_minus(flags, 1, c);
-	if (F_ZERO)
-		res += print_space_num(flags, len);
+	res += F_ZERO ? print_space_num(flags, len) : 0;
 	res += print_dot(flags, len);
 	if (F_INTZERO && F_DOT && !F_DOT_L)
 		res += ft_putchar('0');
 	res += ft_putstr(num);
-	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
+	res += (F_SPACES_L && F_MINUS) ? print_space_num(flags, len) : 0;
 	free(num);
 	return (res);
 }
@@ -126,21 +123,20 @@ int			print_llo(va_list *ap, t_flags *flags, char c)
 	res = 0;
 	F_OCT = 1;
 	num = convert_llo(ap, flags);
+	if (F_HASH && F_INTZERO && F_DOT)
+		return (print_hash(flags));
 	ignored_flags(flags);
 	if (num[0] == '0' && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
 	len = F_HASH ? ft_strlen(num) + 1 : ft_strlen(num);
-	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
+	res += (F_SPACES_L && !F_MINUS) ? print_space_num(flags, len) : 0;
 	res += plus_minus(flags, 1, c);
-	if (F_ZERO)
-		res += print_space_num(flags, len);
+	res += F_ZERO ? print_space_num(flags, len) : 0;
 	res += print_dot(flags, len);
 	if (num[0] == 0 && !(F_DOT && !F_DOT_L))
 		res += ft_putchar('0');
 	res += ft_putstr(num);
-	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
+	res += (F_SPACES_L && F_MINUS) ? print_space_num(flags, len) : 0;
 	free(num);
 	return (res);
 }

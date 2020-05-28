@@ -24,7 +24,7 @@ int	print_space_num(t_flags *flags, int len)
 	if (F_SPACES_L > F_DOT_L)
 	{
 		space = F_SPACES_L - ((F_DOT_L > len) ? F_DOT_L : len);
-		space -= (F_SIGN && F_DOT && F_DOT_L >= len) ? 1 : 0;
+		space -= (!F_UNSIGN && F_SIGN && F_DOT && F_DOT_L >= len) ? 1 : 0;
 		while (i < space)
 		{
 			ft_putchar(' ');
@@ -68,7 +68,7 @@ int	print_dot(t_flags *flags, int len)
 
 	i = 0;
 	dot = F_DOT_L - len;
-	if (F_SIGN)
+	if (F_SIGN && !F_UNSIGN)
 		dot++;
 	while (i < dot)
 	{
@@ -86,11 +86,12 @@ int	print_sign(t_flags *flags)
 	if (!F_SPACES_L && !F_ZERO_L && !F_PLUS && !F_HIDDEN)
 		return (0);
 	n = 0;
-	len = F_SIGN ? 1 : 0;
-	F_SPACES_L -= (F_SIGN ? 0 : 1);
+	len = F_SIGN && !F_UNSIGN ? 1 : 0;
+	F_SPACES_L -= (F_SIGN || F_UNSIGN) ? 0 : 1;
 	if (F_SPACES_L && !F_MINUS)
 		n += print_space_num(flags, len);
-	n += F_PLUS ? ft_putchar('+') : ft_putchar(' ');
+	if ((F_UNSIGN && F_DOT_L) || (F_SPACES_L && F_SIGN && !F_UNSIGN))
+		n += F_PLUS ? ft_putchar('+') : ft_putchar(' ');
 	if (F_ZERO)
 		n += print_space_num(flags, len);
 	n += print_dot(flags, len);
