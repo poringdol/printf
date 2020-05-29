@@ -2,31 +2,43 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static int	print_float(t_flags *flags, float f)
+static void		getfnbr(unsigned long long d, char buf[48])
+{
+	int			len;
+
+	len = len_unumber(d) - 1;
+	buf[len] = '\0';
+	while (d != 1)
+	{
+		buf[len - 1] = d % 10 + '0';
+		d /= 10;
+		len--;
+	}
+}
+
+static int		print_float(t_flags *flags, double f)
 {
 	int			n;
 	int			accur;
+	char		buf[48];
 	long long	ll;
 
 	accur = F_DOT ? F_DOT_L : 6;
-	n = ft_putnbr((long long)f) + ft_putchar('.');
+	n = ft_putnbr((long long)f) + (accur > 0 ? ft_putchar('.') : 0);
 	ll = (long long)f;
-	f -= (double)ll;
-	while (accur)
-	{
-		f *= 10;
-		accur--;
-	}
-	n += ft_putnbr((long long)f);
+	f = (f -ll + 1) * ft_pow(10, accur + 1);
+	f = ((long)f % 10 > 4) ? f / 10 + 1 : f / 10;
+	getfnbr(f, buf);
+	n += ft_putstr(buf);
 	return (n);
 }
 
-static int	put_fnumber(t_flags *flags, float n)
+static int		put_fnumber(t_flags *flags, double f)
 {
-	if (n >= 0)
-		return (print_float(flags, n));
+	if (f >= 0)
+		return (print_float(flags, f));
 	else
-		return (print_float(flags, -n));
+		return (print_float(flags, -f));
 }
 
 int			print_f(va_list *ap, t_flags *flags)
@@ -36,7 +48,8 @@ int			print_f(va_list *ap, t_flags *flags)
 	int			res;
 
 	res = 0;
-	F_SIGN += (n = va_arg(*ap, double)) < 0 ? 1 : 0;
+	n = va_arg(*ap, double);
+	// F_SIGN += (n = va_arg(*ap, double)) < 0 ? 1 : 0;
 	F_INTZERO = (n == 0) ? 1 : 0;
 	if (!n && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
