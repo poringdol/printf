@@ -22,7 +22,7 @@ int	print_number(va_list *ap, t_flags *flags, char c)
 	if ((c == 'd' || c == 'i') && F_LL)
 		n += print_lli(ap, flags);
 	else if ((c == 'd' || c == 'i') && F_HH)
-		n += print_hhi(ap, flags);
+		n += F_HH == 1 ? print_hi(ap, flags) : print_hhi(ap, flags);
 	else if ((c == 'd' || c == 'i'))
 		n += print_i(ap, flags);
 	else if (c == 'u' && F_LL)
@@ -37,7 +37,7 @@ int	print_number(va_list *ap, t_flags *flags, char c)
 		n += print_llo(ap, flags, c);
 	else if (c == 'o')
 		n += print_o(ap, flags, c);
-	else if (c == 'f')
+	else if (c == 'f' || c == 'F')
 		n += print_f(ap, flags);
 	return (n);
 }

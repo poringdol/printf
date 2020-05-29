@@ -62,6 +62,7 @@ int				print_c(va_list *ap, t_flags *flags);
 int				print_s(va_list *ap, t_flags *flags);
 int				print_number(va_list *ap, t_flags *flags, char c);
 int				print_i(va_list *ap, t_flags *flags);
+int				print_hi(va_list *ap, t_flags *flags);
 int				print_hhi(va_list *ap, t_flags *flags);
 int				print_lli(va_list *ap, t_flags *flags);
 int				print_u(va_list *ap, t_flags *flags);

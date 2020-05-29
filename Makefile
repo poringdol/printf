@@ -92,7 +92,7 @@ clean:
 
 fclean:
 	@$(MAKE) fclean -C $(LIBFTDIR)
-	@$(RM) $(OBJDIR) $(NAME) ./test/test ./test/c ./test/d ./test/i ./test/p ./test/s ./test/u ./test/wf ./test/x ./test/tests ./test/lu ./test/bigx
+	@$(RM) $(OBJDIR) $(NAME) ./tests
 	@echo "$(RED)  Library $(NAME) deleted  $(B&W)"
 
 re: fclean $(LIBFT) all
