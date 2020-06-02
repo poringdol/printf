@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_f.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/03 01:04:55 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/06/03 01:08:31 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include <float.h>
 #include "libftprintf.h"
 #include "libft.h"
 
-static int	len_fnumber(t_flags *flags, double n)
+static int		len_fnumber(t_flags *flags, double n)
 {
-	double				i;
-	double				tmp;
-	int					len;
+	double		i;
+	double		tmp;
+	int			len;
 
 	len = !flags->sign ? 0 : 1;
 	tmp = n > 0 ? n : -n;
@@ -67,7 +79,7 @@ static int		put_fnumber(t_flags *flags, double f)
 		return (print_float(flags, -f));
 }
 
-int			print_f(va_list *ap, t_flags *flags)
+int				iprint_f(va_list *ap, t_flags *flags)
 {
 	double		n;
 	int			len;
