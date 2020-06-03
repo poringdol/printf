@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include <float.h>
 #include "libftprintf.h"
 #include "libft.h"
 
@@ -79,7 +78,7 @@ static int		put_fnumber(t_flags *flags, double f)
 		return (print_float(flags, -f));
 }
 
-int				iprint_f(va_list *ap, t_flags *flags)
+int				print_f(va_list *ap, t_flags *flags)
 {
 	double		n;
 	int			len;
