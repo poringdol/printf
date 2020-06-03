@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include "libft.h"
 
+# define D_SIZE 330
 # define F_MINUS flags->minus
 # define F_PLUS flags->plus
 # define F_HIDDEN flags->hidden
@@ -74,13 +75,14 @@ int				print_p(va_list *ap, t_flags *flags);
 int				print_o(va_list *ap, t_flags *flags, char c);
 int				print_llo(va_list *ap, t_flags *flags, char c);
 int				print_f(va_list *ap, t_flags *flags);
+int				print_Lf(va_list *ap, t_flags *flags);
 int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
 int				nospec(t_flags *flags, char c);
 int				check_params(char **format, va_list *ap, t_flags *flags, int n);
 int				print_space_ch(int n, int c);
 int				print_space_num(t_flags *flags, int len);
-int				plus_minus(t_flags *flags, long long n, int c);
+int				plus_minus(t_flags *flags, double n, int c);
 int				print_dot(t_flags *flags, int len);
 int				print_sign(t_flags *flags);
 int				print_percent(t_flags *flags);

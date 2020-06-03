@@ -33,8 +33,8 @@ int	print_space_num(t_flags *flags, int len)
 	}
 	if (F_ZERO_L > F_DOT_L)
 	{
-		space = F_ZERO_L - (F_DOT_L ? F_DOT_L : len);
-		while (i < F_ZERO_L - F_DOT_L - len)
+		space = F_ZERO_L - (F_DOT_L > len ? F_DOT_L : len);
+		while (i < space)
 		{
 			ft_putchar('0');
 			i++;
@@ -43,7 +43,7 @@ int	print_space_num(t_flags *flags, int len)
 	return (i);
 }
 
-int	plus_minus(t_flags *flags, long long n, int c)
+int	plus_minus(t_flags *flags, double n, int c)
 {
 	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L)) ||
 	(F_MINUS && !(F_SPACES_L)) || (F_PLUS && !(F_SPACES_L))))

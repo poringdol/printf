@@ -84,7 +84,7 @@ void		set_flags(va_list *ap, t_flags *flags, char **c)
 			flags->spaces_len = (**c == '*' ? va_arg(*ap, int) : get_number(c));
 		F_LAST_F = NULL;
 	}
-	else if (**c == 'l')
+	else if (**c == 'l' || **c == 'L')
 		flags->ll++;
 	else if (**c == 'h')
 		flags->hh++;

@@ -14,14 +14,43 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static int		len_fnumber(t_flags *flags, double n)
+static void		get_double(double d, char buf[D_SIZE])
+{
+	double	    delim;
+    double      tmp;
+	int			i;
+	char		buf_tmp[D_SIZE];
+
+	i = 0;
+	ft_bzero(buf_tmp, D_SIZE);
+	if ((int)d == 1)
+	{
+		buf[0] = '1';
+		return ;
+	}
+    delim = 1e+308;
+	while (delim > 1 && d > 0)
+    {
+        buf_tmp[i++] = (int)(d / delim) + '0';
+        tmp = (int)(d / delim) * delim;
+        d -= tmp;
+        delim /= 10;
+    }
+	i = 0;
+	while (buf_tmp[i] == '0')
+		i++;
+	ft_strcpy(buf, &buf_tmp[i]);
+	buf[0] = (buf[0] == 0) ? '0' : buf[0];
+}
+
+static int		len_fnumber(t_flags *flags, double f)
 {
 	double		i;
 	double		tmp;
 	int			len;
 
 	len = !flags->sign ? 0 : 1;
-	tmp = n > 0 ? n : -n;
+	tmp = f > 0 ? f : -f;
 	i = 1;
 	while (i <= tmp)
 	{
@@ -30,52 +59,90 @@ static int		len_fnumber(t_flags *flags, double n)
 		i *= 10;
 		len++;
 	}
-	return (n ? len : ++len);
+	return (f ? len : ++len);
 }
 
-static void		getfnbr(unsigned long long d, char buf[48])
+static void		get_fraction(double d, char buf[D_SIZE], int accuracy)
 {
-	int			len;
+	int			i;
 
-	buf[0] = '\0';
-	len = len_unumber(d) - 1;
-	if (len <= 0)
-		return ;
-	buf[len] = '\0';
-	while (d != 1)
+	i = 0;
+	d = d - (long long)d;
+	while (accuracy + 1 && i < D_SIZE)
 	{
-		buf[len - 1] = d % 10 + '0';
-		d /= 10;
-		len--;
+		d = d * 10;
+		buf[i++] = (int)d % 10 + '0';
+		d = d - (long long)d;
+		accuracy--;
 	}
+	d = d * 10;
+	if ((int)d % 10 == 9)
+		buf [i - 1] += 1;
+}
+
+static void		round_f(char buf[D_SIZE])
+{
+	int			i;
+	int			flag;
+
+	i = ft_strlen(buf) - 1;
+	flag = 1;
+	while (flag)
+	{
+		if (buf[i] < '6')
+			flag = 0;
+		else
+			while (flag && i-- && buf[i])
+			{
+				if (buf[i] < '9' && buf[i] != '.')
+				{
+					buf[i] += 1;
+					flag = 0;
+				}
+				else if (buf[i] != '.')
+					buf[i] = '0';
+			}
+	}
+	buf[ft_strlen(buf) - 1] = 0;
+}
+
+static void		float_params(char buf[D_SIZE], t_flags *flags)
+{
+	int			i;
+	
+	i = 0;
+	if (!F_HASH && F_DOT && !F_DOT_L)	
+		while (buf[i])
+		{
+			if (buf[i] == '.')
+			{
+				buf[i] = 0;
+				break;
+			}
+			i++;
+		}
+	// i = ft_strlen(buf) - 1;
+	// if (n < 4 && buf[i] > '4' && buf[i] != '9')
+	// 	buf[i] += 1;
 }
 
 static int		print_float(t_flags *flags, double f)
 {
-	int			n;
-	int			accur;
-	char		buf[48];
-	double		tmp;
+	int			accuracy;
+	char		buf_i[D_SIZE];
+	char		buf_f[D_SIZE];
 
-	accur = F_DOT ? F_DOT_L : 6;
-	tmp = f;
-	tmp = f / ft_pow(10, len_fnumber(flags, f));
-	if (F_DOT && !F_DOT_L)
-		f += tmp > 4 ? 1 : 0;
-	n = ft_putnbr((long long)f) + (accur > 0 ? ft_putchar('.') : 0);
-	f = (f - (long long)f + 1) * ft_pow(10, accur + 1);
-	f = ((long)f % 10 > 4) ? f / 10 + 1 : f / 10;
-	getfnbr(f, buf);
-	n += ft_putstr(buf);
-	return (n);
-}
-
-static int		put_fnumber(t_flags *flags, double f)
-{
-	if (f >= 0)
-		return (print_float(flags, f));
-	else
-		return (print_float(flags, -f));
+	ft_bzero(buf_i, D_SIZE);
+	ft_bzero(buf_f, D_SIZE);
+	f = (f >= 0) ? f : -f;
+	get_double(f, buf_i);
+	accuracy = F_DOT ? F_DOT_L : 6;
+	ft_strcat(buf_i, ".");
+	get_fraction(f, buf_f, accuracy);
+	ft_strcat(buf_i, buf_f);
+	round_f(buf_i);
+	float_params(buf_i, flags);
+	return (ft_putstr(buf_i));
 }
 
 int				print_f(va_list *ap, t_flags *flags)
@@ -86,17 +153,41 @@ int				print_f(va_list *ap, t_flags *flags)
 
 	res = 0;
 	F_SIGN += (n = va_arg(*ap, double)) < 0 ? 1 : 0;
-	F_INTZERO = (n == 0) ? 1 : 0;
 	if (n == 0 && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
-	len = len_fnumber(flags, n) + F_DOT_L + ((F_DOT && !F_DOT_L) ? 0 : 1);
+	len = len_fnumber(flags, n) + F_DOT_L + ((F_PLUS || F_HIDDEN) && !(n < 0) ? 1 : 0);
+	len += (F_DOT_L || F_HASH) ? 1 : 0;
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
 	res += plus_minus(flags, n, 0);
 	if (F_ZERO)
 		res += print_space_num(flags, len);
 	res += print_dot(flags, len);
-	res += put_fnumber(flags, n);
+	res += print_float(flags, n);
+	if (F_SPACES_L && F_MINUS)
+		res += print_space_num(flags, len);
+	return (res);
+}
+
+int				print_Lf(va_list *ap, t_flags *flags)
+{
+	long double	n;
+	int			len;
+	int			res;
+
+	res = 0;
+	F_SIGN += (n = va_arg(*ap, long double)) < 0 ? 1 : 0;
+	if (n == 0 && (F_DOT && !F_DOT_L))
+		return (print_sign(flags));
+	len = len_fnumber(flags, n) + F_DOT_L + ((F_PLUS || F_HIDDEN) && !(n < 0) ? 1 : 0);
+	len += (F_DOT_L || F_HASH) ? 1 : 0;
+	if (F_SPACES_L && !F_MINUS)
+		res += print_space_num(flags, len);
+	res += plus_minus(flags, n, 0);
+	if (F_ZERO)
+		res += print_space_num(flags, len);
+	res += print_dot(flags, len);
+	res += print_float(flags, n);
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, len);
 	return (res);

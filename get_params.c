@@ -24,7 +24,7 @@ int		isflags(char c)
 int		isspecs(char c)
 {
 	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' ||
-	c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p')
+	c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p' || c == 'L')
 		return (c);
 	return (0);
 }
@@ -61,9 +61,11 @@ void	ifnegative(t_flags *flags)
 
 int		islongshort(va_list *ap, t_flags *flags, char **str)
 {
-	while (**str == 'l')
+	while (**str == 'l' || **str == 'L')
 		set_flags(ap, flags, str);
 	while (**str == 'h')
 		set_flags(ap, flags, str);
+	if (**str == 'f')
+		return (print_Lf(ap, flags));
 	return (print_number(ap, flags, **str));
 }
