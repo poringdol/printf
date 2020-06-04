@@ -109,7 +109,6 @@ int				len_fnumber(t_flags *flags, double f);
 void			get_fraction(double d, char buf[D_SIZE], int accuracy);
 void			float_params(char buf[D_SIZE], t_flags *flags);
 int				print_float(t_flags *flags, double f);
-void			round_f(char buf[D_SIZE]);
 int				len_enumber(double *f);
 int				print_efloat(t_flags *flags, double f);
 void			float_gparams(char buf[D_SIZE]);

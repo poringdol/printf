@@ -85,7 +85,6 @@ int				print_efloat(t_flags *flags, double d)
 	ft_strcat(buf_i, ".");
 	get_fraction(d, buf_f, accuracy);
 	ft_strcat(buf_i, buf_f);
-	round_f(buf_i);
 	float_params(buf_i, flags);
 	ft_strcat(buf_i, "e");
 	ft_strcat(buf_i, sign);
