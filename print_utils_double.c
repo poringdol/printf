@@ -6,7 +6,7 @@
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 00:47:39 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/06/05 00:50:48 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/06/05 00:50:23 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,18 @@ int		print_float(t_flags *flags, double d)
 void	get_double(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
 	int			len;
+	long long	tmp;
 	long long	round;
 
 	round = (long long)((d - (long long)d) * 10);
+	tmp = (long long)d;
 	if ((round > 4 && !accuracy) || flags->round)
-		d++;
-	len = len_unumber((long long)d);
+		tmp++;
+	len = len_unumber(tmp);
 	while (len--)
 	{
-		buf[len] = (long long)d % 10 + '0';
-		d /= 10;
+		buf[len] = tmp % 10 + '0';
+		tmp /= 10;
 	}
 }
 
@@ -76,7 +78,7 @@ void	float_params(char buf[D_SIZE], t_flags *flags)
 			if (buf[i] == '.')
 			{
 				buf[i] = 0;
-				break ;
+				break;
 			}
 			i++;
 		}
