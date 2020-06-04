@@ -6,7 +6,7 @@
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/05 00:47:39 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/06/05 00:50:23 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/06/05 01:44:23 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	float_params(char buf[D_SIZE], t_flags *flags)
 			if (buf[i] == '.')
 			{
 				buf[i] = 0;
-				break;
+				break ;
 			}
 			i++;
 		}
