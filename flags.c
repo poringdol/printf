@@ -60,6 +60,8 @@ t_flags		*create_flags(void)
 	flags->hex = 0;
 	flags->unsign = 0;
 	flags->oct = 0;
+	flags->e = 0;
+	flags->g = 0;
 	flags->last_flag = NULL;
 	return (flags);
 }
@@ -111,6 +113,8 @@ void		reset_flags(t_flags *flags)
 	flags->unsign = 0;
 	flags->oct = 0;
 	flags->hash = 0;
+	flags->e = 0;
+	flags->g = 0;
 	flags->last_flag = NULL;
 }
 

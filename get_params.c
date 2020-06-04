@@ -15,8 +15,8 @@
 
 int		isflags(char c)
 {
-	if (c == '-' || c == '0' || c == '.' || c == '*' ||
-	c == '#' || c == ' ' || c == '+' || ft_isdigit(c))
+	if (c == '-' || c == '0' || c == '.' || c == '*' || c == '#' ||
+	c == ' ' || c == '+' || ft_isdigit(c))
 		return (c);
 	return (0);
 }
@@ -24,7 +24,8 @@ int		isflags(char c)
 int		isspecs(char c)
 {
 	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' ||
-	c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p' || c == 'L')
+	c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p' ||
+	c == 'L' || c == 'e' || c == 'g')
 		return (c);
 	return (0);
 }

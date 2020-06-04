@@ -37,8 +37,8 @@ int	print_number(va_list *ap, t_flags *flags, char c)
 		n += print_llo(ap, flags, c);
 	else if (c == 'o')
 		n += print_o(ap, flags, c);
-	else if (c == 'f' || c == 'F')
-		n += print_f(ap, flags);
+	else if (c == 'f' || c == 'F' || c == 'e' || c == 'g')
+		n += print_feg(ap, flags, c);
 	return (n);
 }
 

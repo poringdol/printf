@@ -52,6 +52,8 @@ typedef struct	s_flags
 	char		unsign;
 	char		oct;
 	char		hash;
+	char		e;
+	char		g;
 	int			*last_flag;
 	int			spaces_len;
 	int			zero_len;
@@ -74,8 +76,11 @@ int				print_llx(va_list *ap, t_flags *flags, char c);
 int				print_p(va_list *ap, t_flags *flags);
 int				print_o(va_list *ap, t_flags *flags, char c);
 int				print_llo(va_list *ap, t_flags *flags, char c);
-int				print_f(va_list *ap, t_flags *flags);
+int				print_f(t_flags *flags, double d);
+int				print_e(t_flags *flags, double d);
+int				print_g(t_flags *flags, double d);
 int				print_Lf(va_list *ap, t_flags *flags);
+int				print_feg(va_list *ap, t_flags *flags, int c);
 int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
 int				nospec(t_flags *flags, char c);
@@ -99,5 +104,14 @@ t_flags			*create_flags(void);
 void			reset_flags(t_flags *flags);
 void			ignored_flags(t_flags *flags);
 void			set_flags(va_list *ap, t_flags *flags, char **c);
+void			get_double(double d, char buf[D_SIZE]);
+int				len_fnumber(t_flags *flags, double f);
+void			get_fraction(double d, char buf[D_SIZE], int accuracy);
+void			float_params(char buf[D_SIZE], t_flags *flags);
+int				print_float(t_flags *flags, double f);
+void			round_f(char buf[D_SIZE]);
+int				len_enumber(double *f);
+int				print_efloat(t_flags *flags, double f);
+void			float_gparams(char buf[D_SIZE]);
 
 #endif

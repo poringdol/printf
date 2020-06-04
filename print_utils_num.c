@@ -45,8 +45,8 @@ int	print_space_num(t_flags *flags, int len)
 
 int	plus_minus(t_flags *flags, double n, int c)
 {
-	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L)) ||
-	(F_MINUS && !(F_SPACES_L)) || (F_PLUS && !(F_SPACES_L))))
+	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L)) /*||
+	(F_MINUS && !(F_SPACES_L)) || (F_PLUS && !(F_SPACES_L))*/))
 		return (0);
 	if (F_PLUS && n >= 0)
 		return (ft_putchar('+'));

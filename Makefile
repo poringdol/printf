@@ -29,8 +29,11 @@ SRC = ft_printf.c\
 	  print_u.c\
 	  print_p_x.c\
 	  print_o.c\
-	  print_f.c\
+	  print_f_e_g.c\
 	  print_utils_num.c\
+	  print_utils_double.c\
+  	  print_utils_e.c\
+	  print_utils_g.c\
 	  util_number.c
 
 SRCDIR = ./
