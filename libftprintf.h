@@ -54,6 +54,7 @@ typedef struct	s_flags
 	char		hash;
 	char		e;
 	char		g;
+	char		round;
 	int			*last_flag;
 	int			spaces_len;
 	int			zero_len;
@@ -104,9 +105,11 @@ t_flags			*create_flags(void);
 void			reset_flags(t_flags *flags);
 void			ignored_flags(t_flags *flags);
 void			set_flags(va_list *ap, t_flags *flags, char **c);
-void			get_double(double d, char buf[D_SIZE]);
+void			get_double(double d, char buf[D_SIZE], int accuracy,\
+				t_flags *flags);
 int				len_fnumber(t_flags *flags, double f);
-void			get_fraction(double d, char buf[D_SIZE], int accuracy);
+void			get_fraction(double d, char buf[D_SIZE], int accuracy,\
+				t_flags *flags);
 void			float_params(char buf[D_SIZE], t_flags *flags);
 int				print_float(t_flags *flags, double f);
 int				len_enumber(double *f);

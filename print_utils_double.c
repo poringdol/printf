@@ -2,7 +2,7 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int				print_float(t_flags *flags, double f)
+int		print_float(t_flags *flags, double d)
 {
 	int			accuracy;
 	char		buf_i[D_SIZE];
@@ -10,20 +10,24 @@ int				print_float(t_flags *flags, double f)
 
 	ft_bzero(buf_i, D_SIZE);
 	ft_bzero(buf_f, D_SIZE);
-	f = (f >= 0) ? f : -f;
-	get_double(f, buf_i);
+	d = (d >= 0) ? d : -d;
 	accuracy = F_DOT ? F_DOT_L : 6;
+	get_fraction(d, buf_f, accuracy, flags);
+	get_double(d, buf_i, accuracy, flags);
 	ft_strcat(buf_i, ".");
-	get_fraction(f, buf_f, accuracy);
 	ft_strcat(buf_i, buf_f);
 	float_params(buf_i, flags);
 	return (ft_putstr(buf_i));
 }
 
-void			get_double(double d, char buf[D_SIZE])
+void	get_double(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
 	int			len;
+	long long	round;
 
+	round = (long long)((d - (long long)d) * 10);
+	if ((round > 4 && !accuracy) || flags->round)
+		d++;
 	len = len_unumber((long long)d);
 	while (len--)
 	{
@@ -32,12 +36,14 @@ void			get_double(double d, char buf[D_SIZE])
 	}
 }
 
-void			get_fraction(double d, char buf[D_SIZE], int accuracy)
+void	get_fraction(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
 	int			i;
+	int			round;
 	long long	tmp;
 	
 	i = 0;
+	round = (int)((d - (long long)d) * 10);
 	d = (d - (long long)d) * ft_pow(10, accuracy + 1);
 	tmp = ((long long)d % 10 > 4) ? d / 10 + 1 : d / 10;
 	while (accuracy--)
@@ -45,10 +51,12 @@ void			get_fraction(double d, char buf[D_SIZE], int accuracy)
 		buf[accuracy] = tmp % 10 + '0';
 		tmp /= 10;
 	}
+	if (round == 9 && buf[0] == '0')
+		flags->round = 1;
 }
 
 
-void			float_params(char buf[D_SIZE], t_flags *flags)
+void	float_params(char buf[D_SIZE], t_flags *flags)
 {
 	int			i;
 	

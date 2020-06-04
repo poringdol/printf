@@ -7,6 +7,7 @@ libprintf.a
 /pft
 pft_2019/
 pft/
-.DS*pft_2019/
+.DS*
+pft_2019/
 curqui_test/
 42-ft_printf/

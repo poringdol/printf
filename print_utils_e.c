@@ -28,14 +28,14 @@ static void		ft_itoa_e(int n, char buf[D_SIZE])
 	return ;
 }
 
-int				len_fnumber(t_flags *flags, double f)
+int				len_fnumber(t_flags *flags, double d)
 {
 	double	i;
 	double	tmp;
 	int		len;
 
 	len = !flags->sign ? 0 : 1;
-	tmp = f > 0 ? f : -f;
+	tmp = d > 0 ? d : -d;
 	i = 1;
 	while (i <= tmp)
 	{
@@ -44,23 +44,23 @@ int				len_fnumber(t_flags *flags, double f)
 		i *= 10;
 		len++;
 	}
-	return (f ? len : ++len);
+	return (d ? len : ++len);
 }
 
-int			len_enumber(double *f)
+int			len_enumber(double *d)
 {
 	int		len;
 
-	*f = (*f < 0) ? -*f : *f;
+	*d = (*d < 0) ? -*d : *d;
 	len = 0;
-	while (*f < 1)
+	while (*d < 1)
 	{
-		*f *= 10;
+		*d *= 10;
 		len++;
 	}
-	while (*f > 10)
+	while (*d > 10)
 	{
-		*f /= 10;
+		*d /= 10;
 		len++;
 	}
 	return (len);
@@ -80,10 +80,10 @@ int				print_efloat(t_flags *flags, double d)
 	(d < 1) ? ft_strcat(sign, "-") : ft_strcat(sign, "+");
 	d = (d >= 0) ? d : -d;
 	len_e = len_enumber(&d);
-	get_double(d, buf_i);
 	accuracy = F_DOT ? F_DOT_L : 6;
+	get_fraction(d, buf_f, accuracy, flags);
+	get_double(d, buf_i, accuracy, flags);
 	ft_strcat(buf_i, ".");
-	get_fraction(d, buf_f, accuracy);
 	ft_strcat(buf_i, buf_f);
 	float_params(buf_i, flags);
 	ft_strcat(buf_i, "e");
