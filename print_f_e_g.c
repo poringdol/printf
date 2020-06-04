@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_f.c                                          :+:      :+:    :+:   */
+/*   print_f_e_g.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/03 01:04:55 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/06/03 01:08:31 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/06/05 00:46:09 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int				print_f(t_flags *flags, double d)
 
 	res = 0;
 	F_SIGN += (d < 0) ? 1 : 0;
-	len = len_fnumber(flags, d) + F_DOT_L + ((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
+	len = len_fnumber(flags, d) + F_DOT_L +
+	((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
 	len += (F_DOT_L || F_HASH) ? 1 : 0;
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
@@ -35,7 +36,7 @@ int				print_f(t_flags *flags, double d)
 	return (res);
 }
 
-int				print_Lf(va_list *ap, t_flags *flags)
+int				print_lf(va_list *ap, t_flags *flags)
 {
 	long double	d;
 	int			len;
@@ -43,7 +44,8 @@ int				print_Lf(va_list *ap, t_flags *flags)
 
 	res = 0;
 	F_SIGN += (d = va_arg(*ap, long double)) < 0 ? 1 : 0;
-	len = len_fnumber(flags, d) + F_DOT_L + ((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
+	len = len_fnumber(flags, d) + F_DOT_L +
+	((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
 	len += (F_DOT_L || F_HASH) ? 1 : 0;
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
@@ -88,7 +90,8 @@ int				print_g(t_flags *flags, double d)
 	int			len_e;
 	double		tmp;
 
-	len_f = len_fnumber(flags, d) + F_DOT_L + ((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
+	len_f = len_fnumber(flags, d) + F_DOT_L +
+	((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
 	len_f += (F_DOT_L || F_HASH) ? 1 : 0;
 	len_e = 4 + F_DOT_L +
 	((len_enumber(&tmp) > 99) ? 3 : 2) +

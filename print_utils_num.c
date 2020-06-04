@@ -6,7 +6,7 @@
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 11:32:11 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/05/26 00:41:05 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/06/05 00:47:24 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int	print_space_num(t_flags *flags, int len)
 
 int	plus_minus(t_flags *flags, double n, int c)
 {
-	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L)) /*||
-	(F_MINUS && !(F_SPACES_L)) || (F_PLUS && !(F_SPACES_L))*/))
+	if (!n && !(F_ZERO_L) && ((F_DOT && !(F_DOT_L))))
 		return (0);
 	if (F_PLUS && n >= 0)
 		return (ft_putchar('+'));

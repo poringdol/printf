@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_utils_double.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/05 00:47:39 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/06/05 00:50:48 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libftprintf.h"
 #include "libft.h"
@@ -38,11 +50,9 @@ void	get_double(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 
 void	get_fraction(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
-	int			i;
 	int			round;
 	long long	tmp;
-	
-	i = 0;
+
 	round = (int)((d - (long long)d) * 10);
 	d = (d - (long long)d) * ft_pow(10, accuracy + 1);
 	tmp = ((long long)d % 10 > 4) ? d / 10 + 1 : d / 10;
@@ -55,19 +65,18 @@ void	get_fraction(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 		flags->round = 1;
 }
 
-
 void	float_params(char buf[D_SIZE], t_flags *flags)
 {
 	int			i;
-	
+
 	i = 0;
-	if (!F_HASH && F_DOT && !F_DOT_L)	
+	if (!F_HASH && F_DOT && !F_DOT_L)
 		while (buf[i])
 		{
 			if (buf[i] == '.')
 			{
 				buf[i] = 0;
-				break;
+				break ;
 			}
 			i++;
 		}

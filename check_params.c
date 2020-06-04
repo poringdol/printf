@@ -6,7 +6,7 @@
 /*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/24 11:24:39 by pdemocri          #+#    #+#             */
-/*   Updated: 2020/05/24 11:24:42 by pdemocri         ###   ########.fr       */
+/*   Updated: 2020/06/04 22:23:49 by pdemocri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	check_params(char **str, va_list *ap, t_flags *flags, int n)
 		n += print_c(ap, flags);
 	else if (**str == 's')
 		n += print_s(ap, flags);
-	else if (**str == 'i' || **str == 'd' || **str == 'u' ||
-	**str == 'f' || **str == 'F' || **str == 'x' || **str == 'X' || **str == 'o' ||
+	else if (**str == 'i' || **str == 'd' || **str == 'u' || **str == 'f' ||
+	**str == 'F' || **str == 'x' || **str == 'X' || **str == 'o' ||
 	**str == 'e' || **str == 'g')
 		n += print_number(ap, flags, **str);
 	else if (**str == 'l' || **str == 'h' || **str == 'L')

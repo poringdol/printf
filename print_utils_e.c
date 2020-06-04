@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_utils_e.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/05 00:50:57 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/06/05 00:52:37 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libftprintf.h"
 #include <string.h>
@@ -30,9 +42,9 @@ static void		ft_itoa_e(int n, char buf[D_SIZE])
 
 int				len_fnumber(t_flags *flags, double d)
 {
-	double	i;
-	double	tmp;
-	int		len;
+	double			i;
+	double			tmp;
+	int				len;
 
 	len = !flags->sign ? 0 : 1;
 	tmp = d > 0 ? d : -d;
@@ -47,9 +59,9 @@ int				len_fnumber(t_flags *flags, double d)
 	return (d ? len : ++len);
 }
 
-int			len_enumber(double *d)
+int				len_enumber(double *d)
 {
-	int		len;
+	int				len;
 
 	*d = (*d < 0) ? -*d : *d;
 	len = 0;
@@ -68,11 +80,11 @@ int			len_enumber(double *d)
 
 int				print_efloat(t_flags *flags, double d)
 {
-	int			accuracy;
-	int			len_e;
-	char		sign[2];
-	char		buf_i[D_SIZE];
-	char		buf_f[D_SIZE];
+	int				accuracy;
+	int				len_e;
+	char			sign[2];
+	char			buf_i[D_SIZE];
+	char			buf_f[D_SIZE];
 
 	ft_bzero(sign, 2);
 	ft_bzero(buf_i, D_SIZE);

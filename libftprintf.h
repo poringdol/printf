@@ -80,7 +80,7 @@ int				print_llo(va_list *ap, t_flags *flags, char c);
 int				print_f(t_flags *flags, double d);
 int				print_e(t_flags *flags, double d);
 int				print_g(t_flags *flags, double d);
-int				print_Lf(va_list *ap, t_flags *flags);
+int				print_lf(va_list *ap, t_flags *flags);
 int				print_feg(va_list *ap, t_flags *flags, int c);
 int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
