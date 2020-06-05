@@ -18,7 +18,18 @@
 # include <unistd.h>
 # include "libft.h"
 
+# define DBL_INF    0x7FF0000000000000
+# define DBL_NINF   0xFFF0000000000000
+# define DBL_NAN    0x7FF0000000100000
+# define DBL_PZERO  0x0000000000000000
+# define DBL_NZERO  0x8000000000000000
+# define LDBL_INF   0x7FFF0000000000000000L
+# define LDBL_NINF  0xFFFF0000000000000000L
+# define LDBL_NAN   0x7FFF0000000001000000L
+# define FTPF_LDBL_INF  0x8000000000000000
+
 # define D_SIZE 330
+
 # define F_MINUS flags->minus
 # define F_PLUS flags->plus
 # define F_HIDDEN flags->hidden
@@ -35,6 +46,7 @@
 # define F_UNSIGN flags->unsign
 # define F_OCT flags->oct
 # define F_HASH flags->hash
+# define F_NZERO flags->nzero
 # define F_LAST_F flags->last_flag
 
 typedef struct	s_flags
@@ -55,6 +67,7 @@ typedef struct	s_flags
 	char		e;
 	char		g;
 	char		round;
+	char		nzero;
 	int			*last_flag;
 	int			spaces_len;
 	int			zero_len;
@@ -86,6 +99,7 @@ int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
 int				nospec(t_flags *flags, char c);
 int				check_params(char **format, va_list *ap, t_flags *flags, int n);
+int				ft_putnstr(char const *s, int n);
 int				print_space_ch(int n, int c);
 int				print_space_num(t_flags *flags, int len);
 int				plus_minus(t_flags *flags, double n, int c);
@@ -105,15 +119,18 @@ t_flags			*create_flags(void);
 void			reset_flags(t_flags *flags);
 void			ignored_flags(t_flags *flags);
 void			set_flags(va_list *ap, t_flags *flags, char **c);
-void			get_double(double d, char buf[D_SIZE], int accuracy,\
+void			buf_integer(double d, char buf[D_SIZE], int accuracy,\
 				t_flags *flags);
 int				len_fnumber(t_flags *flags, double f);
-void			get_fraction(double d, char buf[D_SIZE], int accuracy,\
+double			get_float(double d);
+void			buf_float(double d, char buf[D_SIZE], int accuracy,\
 				t_flags *flags);
 void			float_params(char buf[D_SIZE], t_flags *flags);
 int				print_float(t_flags *flags, double f);
 int				len_enumber(double *f);
 int				print_efloat(t_flags *flags, double f);
 void			float_gparams(char buf[D_SIZE]);
+int				isinfnan(double *d);
+int				print_infnan(t_flags *flags, double *d);
 
 #endif

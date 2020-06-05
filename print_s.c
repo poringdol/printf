@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "libftprintf.h"
 
-static int		ft_putnstr(char const *s, int n)
+int				ft_putnstr(char const *s, int n)
 {
 	int		i;
 

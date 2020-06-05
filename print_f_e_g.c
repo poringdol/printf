@@ -22,8 +22,9 @@ int				print_f(t_flags *flags, double d)
 	res = 0;
 	F_SIGN += (d < 0) ? 1 : 0;
 	len = len_fnumber(flags, d) + F_DOT_L +
-	((F_PLUS || F_HIDDEN) && !(d < 0) ? 1 : 0);
+	((F_PLUS || F_HIDDEN || F_NZERO) && !(d < 0) ? 1 : 0);
 	len += (F_DOT_L || F_HASH) ? 1 : 0;
+	len += ((F_DOT && !F_DOT_L) || F_DOT_L) ? 0 : 6;
 	if (F_SPACES_L && !F_MINUS)
 		res += print_space_num(flags, len);
 	res += plus_minus(flags, d, 0);
@@ -104,6 +105,8 @@ int				print_feg(va_list *ap, t_flags *flags, int c)
 	double		d;
 
 	d = (double)va_arg(*ap, double);
+	if (isinfnan(&d))
+		return (print_infnan(flags, &d));
 	if (c == 'f')
 		return (print_f(flags, d));
 	if (c == 'e')

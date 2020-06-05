@@ -93,8 +93,8 @@ int				print_efloat(t_flags *flags, double d)
 	d = (d >= 0) ? d : -d;
 	len_e = len_enumber(&d);
 	accuracy = F_DOT ? F_DOT_L : 6;
-	get_fraction(d, buf_f, accuracy, flags);
-	get_double(d, buf_i, accuracy, flags);
+	buf_float(d, buf_f, accuracy, flags);
+	buf_integer(d, buf_i, accuracy, flags);
 	ft_strcat(buf_i, ".");
 	ft_strcat(buf_i, buf_f);
 	float_params(buf_i, flags);

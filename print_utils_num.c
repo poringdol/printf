@@ -51,7 +51,7 @@ int	plus_minus(t_flags *flags, double n, int c)
 		return (ft_putchar('+'));
 	if (F_HIDDEN && n >= 0)
 		return (ft_putchar(' '));
-	if (n < 0)
+	if (n < 0 || flags->nzero)
 		return (ft_putchar('-'));
 	if (F_HASH && F_HEX)
 		return (c == 'x' ? ft_putstr("0x") : ft_putstr("0X"));
