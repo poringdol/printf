@@ -12,6 +12,7 @@
 
 #include <stdarg.h>
 #include <limits.h>
+// #include <stdio.h>
 #include "libftprintf.h"
 #include "libft.h"
 
@@ -25,14 +26,15 @@ int		print_float(t_flags *flags, double d)
 	ft_bzero(buf_f, D_SIZE);
 	d = (d >= 0) ? d : -d;
 	accuracy = F_DOT ? F_DOT_L : 6;
+	accuracy = accuracy > 308 ? 308 : accuracy;
 	buf_float(d, buf_f, accuracy, flags);
 	buf_integer(d, buf_i, accuracy, flags);
 	ft_strcat(buf_i, ".");
 	ft_strcat(buf_i, buf_f);
 	float_params(buf_i, flags);
 	// reset_flags(flags);
-	return (ft_putstr(buf_i) +
-	print_space_ch(accuracy - (1 + len_fnumber(flags, d) + (int)ft_strlen(buf_i)), '0'));
+	return (ft_putstr(buf_i) + (flags->g) ? 0 :
+	print_space_ch(F_DOT_L - (1 + len_fnumber(flags, d) + (int)ft_strlen(buf_i)), '0'));
 }
 
 double	get_float(double d)
@@ -69,18 +71,22 @@ void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 	ld = get_float(d);
 	round = (int)(ld * 10);
 	accur_tmp = accuracy;
-	while (accur_tmp-- && i < 308)
-	{
-		ld *= 10;
-		i++;
-	}
+	ld *= ft_pow(10, accuracy);
+	// while (accur_tmp-- && i < 308)
+	// {
+	// 	ld *= 10;
+	// 	i++;
+	// }
 	ld = ((int)(get_float(ld) * 10) > 4) ? ld + 1 : ld;
-	while (i--)
-		ld /= 10;
-	while (accuracy-- && i < 308)
+	// while (accur_tmp--)
+	// 	ld /= 10;
+	while (accuracy && i < 308)
 	{
-		buf[++i] = (int)(ld * 10) % 10 + '0';
-		ld = get_float(ld * 10);
+		// printf("%f\n", ld);
+		// printf("%lli\n", (long long)ld % 10 + '0');
+		buf[--accuracy] = ft_llabs((long long)ld) % 10 + '0';
+		buf[accuracy] = (buf[accuracy] == '(') ? '0' : buf[accuracy];
+		ld /= 10;
 	}
 	if (round == 9 && buf[0] == '0')
 		flags->round = 1;

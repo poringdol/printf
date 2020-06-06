@@ -132,5 +132,6 @@ int				print_efloat(t_flags *flags, double f);
 void			float_gparams(char buf[D_SIZE]);
 int				isinfnan(double *d);
 int				print_infnan(t_flags *flags, double *d);
+int				print_dblmax(void);
 
 #endif

@@ -65,7 +65,7 @@ int				len_enumber(double *d)
 
 	*d = (*d < 0) ? -*d : *d;
 	len = 0;
-	while (*d < 1)
+	while (*d < 1 && *d != 0)
 	{
 		*d *= 10;
 		len++;
