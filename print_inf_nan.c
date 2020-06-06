@@ -1,12 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_inf_nan.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/06 16:15:10 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/06/06 16:21:30 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include <float.h>
 #include "libftprintf.h"
 #include "libft.h"
 
-int isinfnan(double *d)
+int			isinfnan(double *d)
 {
-	double d1 = -DBL_MAX + 1 / ft_pow(10, 308);
-	double d2 = DBL_MAX - 1 / ft_pow(10, 308);
+	double d1;
+	double d2;
+
+	d1 = -DBL_MAX + 1 / ft_pow(10, 308);
+	d2 = DBL_MAX - 1 / ft_pow(10, 308);
 	if (*((unsigned long *)(d)) == DBL_INF ||
 	*((unsigned long *)(d)) == DBL_NINF ||
 	*((unsigned long *)(d)) == DBL_NAN ||
@@ -39,7 +54,7 @@ static int	get_inftnan(t_flags *flags, char buf[5], double *d)
 	return (0);
 }
 
-int	print_infnan(t_flags *flags, double *d)
+int			print_infnan(t_flags *flags, double *d)
 {
 	int		n;
 	int		len;
@@ -67,7 +82,7 @@ int	print_infnan(t_flags *flags, double *d)
 	return (n);
 }
 
-int	print_dblmax(void)
+int			print_dblmax(void)
 {
 	return (ft_putstr("1797693134862315708145274237317043567980705675258449") +
 	ft_putstr("965989174768031572607800285387605895586327668781715404589535") +
