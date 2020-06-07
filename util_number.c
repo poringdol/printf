@@ -58,15 +58,15 @@ int	len_number(t_flags *flags, long long n)
 	long long			tmp;
 	int					len;
 
-	len = !flags->sign ? 0 : 1;
+	len = flags->sign ? 1 : 0;
 	if (n == LLONG_MIN)
-		return (19);
+		return (20);
 	tmp = n > 0 ? n : -n;
 	i = 1;
 	while (i <= tmp)
 	{
 		if (i * 10 < i)
-			return (19);
+			return (flags->sign ? 20 : 19);
 		i *= 10;
 		len++;
 	}

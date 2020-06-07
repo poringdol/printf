@@ -14,17 +14,16 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static char	*convert_llx(va_list *ap, t_flags *flags, char c)
+static char	*convert_llx(char buf[BSIZE], va_list *ap, t_flags *flags, char c)
 {
 	int					j;
 	int					len;
 	unsigned long long	n;
-	char				*buf;
 
 	j = 0;
 	F_HEX = 1;
 	F_HASH = (c == 'p') ? 1 : F_HASH;
-	buf = (char *)ft_calloc(60, 1);
+	ft_bzero(buf, BSIZE);
 	n = va_arg(*ap, unsigned long long);
 	buf[0] += (n == 0) ? '0' : 0;
 	while (n)
@@ -43,16 +42,15 @@ static char	*convert_llx(va_list *ap, t_flags *flags, char c)
 	return ((c == 'X') ? ft_strupcase(buf) : buf);
 }
 
-static char	*convert_x(va_list *ap, t_flags *flags, char c)
+static char	*convert_x(char buf[BSIZE], va_list *ap, t_flags *flags, char c)
 {
 	int					j;
 	int					len;
 	unsigned			n;
-	char				*buf;
 
 	j = 0;
 	F_HEX = 1;
-	buf = (char *)ft_calloc(60, 1);
+	ft_bzero(buf, BSIZE);
 	n = va_arg(*ap, unsigned);
 	buf[0] += (n == 0) ? '0' : 0;
 	while (n)
@@ -75,10 +73,10 @@ int			print_p(va_list *ap, t_flags *flags)
 {
 	int					len;
 	int					res;
-	char				*num;
+	char				num[BSIZE];
 
 	res = 0;
-	num = convert_llx(ap, flags, 'p');
+	convert_llx(num, ap, flags, 'p');
 	ignored_flags(flags);
 	len = (F_INTZERO && F_DOT && !F_DOT_L) ? 2 : ft_strlen(num) + 2;
 	if (F_INTZERO && F_DOT && F_DOT_L > F_SPACES_L)
@@ -96,7 +94,6 @@ int			print_p(va_list *ap, t_flags *flags)
 	res += (num[0] == '0') ? ft_putstr("0x0") : ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, len);
-	free(num);
 	return (res);
 }
 
@@ -104,10 +101,10 @@ int			print_x(va_list *ap, t_flags *flags, char c)
 {
 	int					len;
 	int					res;
-	char				*num;
+	char				num[BSIZE];
 
 	res = 0;
-	num = convert_x(ap, flags, c);
+	convert_x(num, ap, flags, c);
 	F_HEX = 1;
 	ignored_flags(flags);
 	if (num[0] == '0' && (F_DOT && !F_DOT_L))
@@ -124,7 +121,6 @@ int			print_x(va_list *ap, t_flags *flags, char c)
 	res += ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, len);
-	free(num);
 	return (res);
 }
 
@@ -132,10 +128,10 @@ int			print_llx(va_list *ap, t_flags *flags, char c)
 {
 	int					len;
 	int					res;
-	char				*num;
+	char				num[BSIZE];
 
 	res = 0;
-	num = convert_llx(ap, flags, c);
+	convert_llx(num, ap, flags, c);
 	ignored_flags(flags);
 	if (num[0] == '0' && (F_DOT && !F_DOT_L))
 		return (print_sign(flags));
@@ -151,6 +147,5 @@ int			print_llx(va_list *ap, t_flags *flags, char c)
 	res += ft_putstr(num);
 	if (F_SPACES_L && F_MINUS)
 		res += print_space_num(flags, len);
-	free(num);
 	return (res);
 }

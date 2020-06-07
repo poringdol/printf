@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
+#include <limits.h>
 #include "libftprintf.h"
-#include <string.h>
 #include "libft.h"
 
 static void		ft_itoa_e(int n, char buf[D_SIZE])
@@ -103,4 +103,31 @@ int				print_efloat(t_flags *flags, double d)
 	ft_itoa_e(len_e, buf_f);
 	ft_strcat(buf_i, buf_f);
 	return (ft_putstr(buf_i));
+}
+
+char		*ft_lltobuf(char buf[BSIZE], long long n)
+{
+	unsigned int		len;
+	unsigned long long	tmp;
+	int					sign;
+
+	ft_bzero(buf, BSIZE);
+	if (!n)
+		return (ft_strcpy(buf, "0"));
+	if (n == LLONG_MIN)
+		return (ft_strcpy(buf, "−9223372036854775808"));
+	sign = n > 0 ? 1 : -1;
+	tmp = n * sign;
+	len = n < 0 ? 2 : 1;
+	while ((n /= 10))
+		len++;
+	if (sign < 0)
+		buf[0] = '-';
+	len--;
+	while (tmp)
+	{
+		buf[len--] = tmp % 10 + '0';
+		tmp /= 10;
+	}
+	return (buf);
 }

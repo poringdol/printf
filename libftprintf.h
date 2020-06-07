@@ -29,6 +29,7 @@
 # define FTPF_LDBL_INF  0x8000000000000000
 
 # define D_SIZE 330
+# define BSIZE 60
 
 # define F_MINUS flags->minus
 # define F_PLUS flags->plus
@@ -119,7 +120,7 @@ t_flags			*create_flags(void);
 void			reset_flags(t_flags *flags);
 void			ignored_flags(t_flags *flags);
 void			set_flags(va_list *ap, t_flags *flags, char **c);
-void			buf_integer(double d, char buf[D_SIZE], int accuracy,\
+char			*buf_integer(double d, char buf[D_SIZE], int accuracy,\
 				t_flags *flags);
 int				len_fnumber(t_flags *flags, double f);
 double			get_float(double d);
@@ -133,5 +134,6 @@ void			float_gparams(char buf[D_SIZE]);
 int				isinfnan(double *d);
 int				print_infnan(t_flags *flags, double *d);
 int				print_dblmax(void);
+char			*ft_lltobuf(char buf[BSIZE], long long n);
 
 #endif

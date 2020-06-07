@@ -5,7 +5,7 @@ RED =  \033[0;31m
 GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
-CC = gcc
+CC = clang
 FLAGS = -Wall -Werror -Wextra -ggdb
 AR = ar rs
 RM = rm -rf
@@ -67,6 +67,12 @@ $(LIBFT):
 ############################# TEST ###############################
 test:
 	@$(CC) ./test/main.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/test
+test0:
+	@$(CC) ./test/main0.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/test0
+test1:
+	@$(CC) ./test/main1.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/test1
+test2:
+	@$(CC) ./test/main2.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/test2
 c:
 	@$(CC) ./test/main_c.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/c
 s:

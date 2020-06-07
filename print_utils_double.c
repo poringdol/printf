@@ -61,16 +61,14 @@ double	get_float(double d)
 void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
 	int			i;
-	int			accur_tmp;
 	int			round;
 	double		ld;
 
 	i = 0;
 	ld = get_float(d);
 	round = (int)(ld * 10);
-	accur_tmp = accuracy;
 	ld *= ft_pow(10, accuracy);
-	ld = ((int)(get_float(ld) * 10) > 4) ? ld + 1 : ld;
+	ld = ((int)(get_float(ld) * 10) > 4) ? ld + 0.5 : ld;
 	while (accuracy && i < 308)
 	{
 		buf[--accuracy] = ft_llabs((long long)ld) % 10 + '0';
@@ -81,7 +79,7 @@ void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 		flags->round = 1;
 }
 
-void	buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
+char	*buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 {
 	int			i;
 	int			len;
@@ -93,6 +91,8 @@ void	buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 		d++;
 	ld = d;
 	len = 0;
+	if (d <= LLONG_MAX)
+		return (ft_lltobuf(buf, d));
 	while (ld >= 1)
 	{
 		ld /= 10;
@@ -105,6 +105,7 @@ void	buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 		buf[i++] = (int)(ld * 10) % 10 + '0';
 		ld = (ld * 10) - ((int)(ld * 10));
 	}
+	return (buf);
 }
 
 void	float_params(char buf[D_SIZE], t_flags *flags)
