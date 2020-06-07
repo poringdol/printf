@@ -106,6 +106,7 @@ int	print_percent(t_flags *flags)
 	n = 0;
 	F_DOT = 0;
 	F_DOT_L = 0;
+	ignored_flags(flags);
 	if ((F_SPACES_L && !F_MINUS) || F_ZERO_L)
 		n += print_space_num(flags, 1);
 	n += ft_putchar('%');
