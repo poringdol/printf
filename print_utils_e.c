@@ -63,7 +63,7 @@ int				len_enumber(double *d)
 {
 	int				len;
 
-	*d = (*d < 0) ? -*d : *d;
+	*d = ft_fabs(*d);
 	len = 0;
 	while (*d < 1 && *d != 0)
 	{
@@ -89,10 +89,11 @@ int				print_efloat(t_flags *flags, double d)
 	ft_bzero(sign, 2);
 	ft_bzero(buf_i, D_SIZE);
 	ft_bzero(buf_f, D_SIZE);
-	(d < 1) ? ft_strcat(sign, "-") : ft_strcat(sign, "+");
+	(ft_fabs(d) < 1 && d != 0) ? ft_strcat(sign, "-") : ft_strcat(sign, "+");
 	d = (d >= 0) ? d : -d;
 	len_e = len_enumber(&d);
 	accuracy = F_DOT ? F_DOT_L : 6;
+	accuracy -= (flags->g && accuracy) ? 1 : 0;
 	buf_float(d, buf_f, accuracy, flags);
 	buf_integer(d, buf_i, accuracy, flags);
 	ft_strcat(buf_i, ".");

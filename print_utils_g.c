@@ -16,7 +16,7 @@
 
 void	float_gparams(char buf[D_SIZE])
 {
-	int i;
+	int 	i;
 
 	i = ft_strlen(buf) - 1;
 	while (i && (buf[i] == '0' || buf[i] == '.'))
@@ -29,4 +29,23 @@ void	float_gparams(char buf[D_SIZE])
 		buf[i] = 0;
 		i--;
 	}
+}
+
+int		len_gnumber(double d)
+{
+	int		len;
+
+	d = ft_abs(d);
+	len = 0;
+	while (d < 1 && d != 0)
+	{
+		d *= 10;
+		len++;
+	}
+	while (d > 10)
+	{
+		d /= 10;
+		len++;
+	}
+	return (++len);
 }

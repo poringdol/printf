@@ -122,14 +122,14 @@ void			ignored_flags(t_flags *flags);
 void			set_flags(va_list *ap, t_flags *flags, char **c);
 char			*buf_integer(double d, char buf[D_SIZE], int accuracy,\
 				t_flags *flags);
-int				len_fnumber(t_flags *flags, double f);
+int				len_fnumber(t_flags *flags, double d);
 double			get_float(double d);
 void			buf_float(double d, char buf[D_SIZE], int accuracy,\
 				t_flags *flags);
 void			float_params(char buf[D_SIZE], t_flags *flags);
-int				print_float(t_flags *flags, double f);
+int				print_float(t_flags *flags, double d);
 int				len_enumber(double *f);
-int				print_efloat(t_flags *flags, double f);
+int				print_efloat(t_flags *flags, double d);
 void			float_gparams(char buf[D_SIZE]);
 int				isinfnan(double *d);
 int				print_infnan(t_flags *flags, double *d);
