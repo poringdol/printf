@@ -17,8 +17,8 @@
 
 static void		ft_itoa_e(int n, char buf[D_SIZE])
 {
-	unsigned int	len;
-	unsigned int	tmp;
+	unsigned int		len;
+	unsigned int		tmp;
 
 	ft_bzero(buf, D_SIZE);
 	if (!n)
@@ -42,9 +42,9 @@ static void		ft_itoa_e(int n, char buf[D_SIZE])
 
 int				len_fnumber(t_flags *flags, double d)
 {
-	double			i;
-	double			tmp;
-	int				len;
+	double				i;
+	double				tmp;
+	int					len;
 
 	len = !flags->sign ? 0 : 1;
 	tmp = d > 0 ? d : -d;
@@ -80,11 +80,11 @@ int				len_enumber(double *d)
 
 int				print_efloat(t_flags *flags, double d)
 {
-	int				accuracy;
-	int				len_e;
-	char			sign[2];
-	char			buf_i[D_SIZE];
-	char			buf_f[D_SIZE];
+	int					accuracy;
+	int					len_e;
+	char				sign[2];
+	char				buf_i[D_SIZE];
+	char				buf_f[D_SIZE];
 
 	ft_bzero(sign, 2);
 	ft_bzero(buf_i, D_SIZE);
@@ -106,7 +106,7 @@ int				print_efloat(t_flags *flags, double d)
 	return (ft_putstr(buf_i));
 }
 
-char		*ft_lltobuf(char buf[BSIZE], long long n)
+char			*ft_lltobuf(char buf[BSIZE], long long n)
 {
 	unsigned int		len;
 	unsigned long long	tmp;

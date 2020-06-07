@@ -16,7 +16,7 @@
 
 void	float_gparams(char buf[D_SIZE])
 {
-	int 	i;
+	int		i;
 
 	i = ft_strlen(buf) - 1;
 	while (i && (buf[i] == '0' || buf[i] == '.'))

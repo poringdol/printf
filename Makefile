@@ -5,7 +5,7 @@ RED =  \033[0;31m
 GREEN = \033[0;32m
 PURPLE = \033[0;35m
 
-CC = clang
+CC = gcc
 FLAGS = -Wall -Werror -Wextra -ggdb
 AR = ar rs
 RM = rm -rf
@@ -83,8 +83,6 @@ d:
 	@$(CC) ./test/main_d.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/d
 u:
 	@$(CC) ./test/main_u.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/u
-lu:
-	@$(CC) ./test/main_lu.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/lu
 x:
 	@$(CC) ./test/main_x.c -I$(HEADERDIR) -I$(LIBFTHEADERDIR) -ggdb -w -L./ -lftprintf -o ./test/$@ && ./test/x
 bigx:

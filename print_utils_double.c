@@ -25,7 +25,8 @@ int		print_float(t_flags *flags, double d)
 	ft_bzero(buf_f, D_SIZE);
 	d = ft_fabs(d);
 	accuracy = F_DOT ? F_DOT_L : 6;
-	accuracy -= (flags->g && accuracy >= len_fnumber(flags, d)) ? len_fnumber(flags, d) : 0;
+	accuracy -= (flags->g && accuracy >= len_fnumber(flags, d)) ?
+	len_fnumber(flags, d) : 0;
 	accuracy = accuracy > 308 ? 308 : accuracy;
 	buf_float(d, buf_f, accuracy, flags);
 	buf_integer(d, buf_i, accuracy, flags);
@@ -125,8 +126,5 @@ void	float_params(char buf[D_SIZE], t_flags *flags)
 			i++;
 		}
 	if (flags->g)
-	{
 		float_gparams(buf);
-		// g_round(flags, buf, d);
-	}
 }
