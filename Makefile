@@ -103,6 +103,6 @@ fclean:
 	@$(RM) $(OBJDIR) $(NAME) ./tests
 	@echo "$(RED)  Library $(NAME) deleted  $(B&W)"
 
-re: fclean $(LIBFT) all
+re: fclean all
 
-.PHONY: all bonus clean fclean re test c d i p s u wf x tests lu
+.PHONY: all bonus clean fclean re test c d i p s u wf x tests
