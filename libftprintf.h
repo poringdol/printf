@@ -29,6 +29,7 @@
 # define FTPF_LDBL_INF  0x8000000000000000
 
 # define D_SIZE 330
+# define S_SIZE 4096
 # define BSIZE 60
 
 typedef struct	s_flags
@@ -58,7 +59,9 @@ typedef struct	s_flags
 
 int				ft_printf(const char *format, ...);
 int				print_c(va_list *ap, t_flags *flags);
+int				print_lc(va_list *ap, t_flags *flags);
 int				print_s(va_list *ap, t_flags *flags);
+int				print_ls(va_list *ap, t_flags *flags);
 int				print_number(va_list *ap, t_flags *flags, char c);
 int				print_i(va_list *ap, t_flags *flags);
 int				print_hi(va_list *ap, t_flags *flags);
@@ -79,6 +82,7 @@ int				print_lf(va_list *ap, t_flags *flags);
 int				print_feg(va_list *ap, t_flags *flags, int c);
 int				print_percent(t_flags *flags);
 int				print_space_ch(int len, int c);
+int				print_null(t_flags *f);
 int				nospec(t_flags *flags, char c);
 int				check_params(char **format, va_list *ap, t_flags *flags, int n);
 int				ft_putnstr(char const *s, int n);

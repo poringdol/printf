@@ -68,5 +68,9 @@ int		islongshort(va_list *ap, t_flags *f, char **str)
 		set_flags(ap, f, str);
 	if (**str == 'f')
 		return (print_lf(ap, f));
+	if (**str == 'c')
+		return (print_lc(ap, f));
+	if (**str == 's')
+		return (print_ls(ap, f));
 	return (print_number(ap, f, **str));
 }

@@ -28,7 +28,7 @@ int				ft_putnstr(char const *s, int n)
 	return (n);
 }
 
-static int		print_null(t_flags *f)
+int			print_null(t_flags *f)
 {
 	int		spaces;
 	int		len;
