@@ -31,25 +31,6 @@
 # define D_SIZE 330
 # define BSIZE 60
 
-# define F_MINUS flags->minus
-# define F_PLUS flags->plus
-# define F_HIDDEN flags->hidden
-# define F_ZERO flags->zero
-# define F_DOT flags->dot
-# define F_SIGN flags->sign
-# define F_INTZERO flags->intzero
-# define F_SPACES_L flags->spaces_len
-# define F_ZERO_L flags->zero_len
-# define F_DOT_L flags->dot_len
-# define F_LL flags->ll
-# define F_HH flags->hh
-# define F_HEX flags->hex
-# define F_UNSIGN flags->unsign
-# define F_OCT flags->oct
-# define F_HASH flags->hash
-# define F_NZERO flags->nzero
-# define F_LAST_F flags->last_flag
-
 typedef struct	s_flags
 {
 	char		minus;
@@ -70,9 +51,9 @@ typedef struct	s_flags
 	char		round;
 	char		nzero;
 	int			*last_flag;
-	int			spaces_len;
-	int			zero_len;
-	int			dot_len;
+	int			spaces_l;
+	int			zero_l;
+	int			dot_l;
 }				t_flags;
 
 int				ft_printf(const char *format, ...);

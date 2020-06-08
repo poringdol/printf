@@ -14,31 +14,31 @@
 #include <limits.h>
 #include "libftprintf.h"
 
-int	print_number(va_list *ap, t_flags *flags, char c)
+int	print_number(va_list *ap, t_flags *f, char c)
 {
 	int					n;
 
 	n = 0;
-	if ((c == 'd' || c == 'i') && F_LL)
-		n += print_lli(ap, flags);
-	else if ((c == 'd' || c == 'i') && F_HH)
-		n += F_HH == 1 ? print_hi(ap, flags) : print_hhi(ap, flags);
+	if ((c == 'd' || c == 'i') && f->ll)
+		n += print_lli(ap, f);
+	else if ((c == 'd' || c == 'i') && f->hh)
+		n += f->hh == 1 ? print_hi(ap, f) : print_hhi(ap, f);
 	else if ((c == 'd' || c == 'i'))
-		n += print_i(ap, flags);
-	else if (c == 'u' && F_LL)
-		n += F_LL == 1 ? print_lu(ap, flags) : print_llu(ap, flags);
+		n += print_i(ap, f);
+	else if (c == 'u' && f->ll)
+		n += f->ll == 1 ? print_lu(ap, f) : print_llu(ap, f);
 	else if (c == 'u')
-		n += print_u(ap, flags);
-	else if ((c == 'x' || c == 'X') && F_LL)
-		n += print_llx(ap, flags, c);
+		n += print_u(ap, f);
+	else if ((c == 'x' || c == 'X') && f->ll)
+		n += print_llx(ap, f, c);
 	else if (c == 'x' || c == 'X')
-		n += print_x(ap, flags, c);
-	else if ((c == 'o') && F_LL)
-		n += print_llo(ap, flags, c);
+		n += print_x(ap, f, c);
+	else if ((c == 'o') && f->ll)
+		n += print_llo(ap, f, c);
 	else if (c == 'o')
-		n += print_o(ap, flags, c);
+		n += print_o(ap, f, c);
 	else if (c == 'f' || c == 'F' || c == 'e' || c == 'g')
-		n += print_feg(ap, flags, c);
+		n += print_feg(ap, f, c);
 	return (n);
 }
 
@@ -52,13 +52,13 @@ int	put_number(long long n)
 		return (ft_putnbr(-n));
 }
 
-int	len_number(t_flags *flags, long long n)
+int	len_number(t_flags *f, long long n)
 {
 	long long			i;
 	long long			tmp;
 	int					len;
 
-	len = flags->sign ? 1 : 0;
+	len = f->sign ? 1 : 0;
 	if (n == LLONG_MIN)
 		return (20);
 	tmp = n > 0 ? n : -n;
@@ -66,7 +66,7 @@ int	len_number(t_flags *flags, long long n)
 	while (i <= tmp)
 	{
 		if (i * 10 < i)
-			return (flags->sign ? 20 : 19);
+			return (f->sign ? 20 : 19);
 		i *= 10;
 		len++;
 	}

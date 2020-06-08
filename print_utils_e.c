@@ -40,13 +40,13 @@ static void		ft_itoa_e(int n, char buf[D_SIZE])
 	return ;
 }
 
-int				len_fnumber(t_flags *flags, double d)
+int				len_fnumber(t_flags *f, double d)
 {
 	double				i;
 	double				tmp;
 	int					len;
 
-	len = !flags->sign ? 0 : 1;
+	len = !f->sign ? 0 : 1;
 	tmp = d > 0 ? d : -d;
 	i = 1;
 	while (i <= tmp)
@@ -78,7 +78,7 @@ int				len_enumber(double *d)
 	return (len);
 }
 
-int				print_efloat(t_flags *flags, double d)
+int				print_efloat(t_flags *f, double d)
 {
 	int					accuracy;
 	int					len_e;
@@ -92,13 +92,13 @@ int				print_efloat(t_flags *flags, double d)
 	(ft_fabs(d) < 1 && d != 0) ? ft_strcat(sign, "-") : ft_strcat(sign, "+");
 	d = (d >= 0) ? d : -d;
 	len_e = len_enumber(&d);
-	accuracy = F_DOT ? F_DOT_L : 6;
-	accuracy -= (flags->g && accuracy) ? 1 : 0;
-	buf_float(d, buf_f, accuracy, flags);
-	buf_integer(d, buf_i, accuracy, flags);
+	accuracy = f->dot ? f->dot_l : 6;
+	accuracy -= (f->g && accuracy) ? 1 : 0;
+	buf_float(d, buf_f, accuracy, f);
+	buf_integer(d, buf_i, accuracy, f);
 	ft_strcat(buf_i, ".");
 	ft_strcat(buf_i, buf_f);
-	float_params(buf_i, flags);
+	float_params(buf_i, f);
 	ft_strcat(buf_i, "e");
 	ft_strcat(buf_i, sign);
 	ft_itoa_e(len_e, buf_f);

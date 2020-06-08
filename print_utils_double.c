@@ -15,7 +15,7 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int		print_float(t_flags *flags, double d)
+int		print_float(t_flags *f, double d)
 {
 	int			accuracy;
 	char		buf_i[D_SIZE];
@@ -24,17 +24,17 @@ int		print_float(t_flags *flags, double d)
 	ft_bzero(buf_i, D_SIZE);
 	ft_bzero(buf_f, D_SIZE);
 	d = ft_fabs(d);
-	accuracy = F_DOT ? F_DOT_L : 6;
-	accuracy -= (flags->g && accuracy >= len_fnumber(flags, d)) ?
-	len_fnumber(flags, d) : 0;
+	accuracy = f->dot ? f->dot_l : 6;
+	accuracy -= (f->g && accuracy >= len_fnumber(f, d)) ?
+	len_fnumber(f, d) : 0;
 	accuracy = accuracy > 308 ? 308 : accuracy;
-	buf_float(d, buf_f, accuracy, flags);
-	buf_integer(d, buf_i, accuracy, flags);
+	buf_float(d, buf_f, accuracy, f);
+	buf_integer(d, buf_i, accuracy, f);
 	ft_strcat(buf_i, ".");
 	ft_strcat(buf_i, buf_f);
-	float_params(buf_i, flags);
-	return (ft_putstr(buf_i) + (flags->g) ? 0 : print_space_ch(F_DOT_L -
-	(1 + len_fnumber(flags, d) + (int)ft_strlen(buf_i)), '0'));
+	float_params(buf_i, f);
+	return (ft_putstr(buf_i) + ((f->g) ? 0 : print_space_ch(f->dot_l -
+	(1 + len_fnumber(f, d) + (int)ft_strlen(buf_i)), '0')));
 }
 
 double	get_float(double d)
@@ -60,7 +60,7 @@ double	get_float(double d)
 	return (ld);
 }
 
-void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
+void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *f)
 {
 	int			i;
 	int			round;
@@ -78,10 +78,10 @@ void	buf_float(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 		ld /= 10;
 	}
 	if (round == 9 && buf[0] == '0')
-		flags->round = 1;
+		f->round = 1;
 }
 
-char	*buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
+char	*buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *f)
 {
 	int			i;
 	int			len;
@@ -89,7 +89,7 @@ char	*buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 	int			round;
 
 	round = (int)(get_float(d) * 10);
-	if ((round > 4 && !accuracy) || flags->round)
+	if ((round > 4 && !accuracy) || f->round)
 		d += 0.5;
 	ld = d;
 	len = 0;
@@ -110,12 +110,12 @@ char	*buf_integer(double d, char buf[D_SIZE], int accuracy, t_flags *flags)
 	return (buf);
 }
 
-void	float_params(char buf[D_SIZE], t_flags *flags)
+void	float_params(char buf[D_SIZE], t_flags *f)
 {
 	int			i;
 
 	i = 0;
-	if (!F_HASH && F_DOT && !F_DOT_L)
+	if (!f->hash && f->dot && !f->dot_l)
 		while (buf[i])
 		{
 			if (buf[i] == '.')
@@ -125,6 +125,6 @@ void	float_params(char buf[D_SIZE], t_flags *flags)
 			}
 			i++;
 		}
-	if (flags->g)
+	if (f->g)
 		float_gparams(buf);
 }

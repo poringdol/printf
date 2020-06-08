@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "libftprintf.h"
 
-int			print_c(va_list *ap, t_flags *flags)
+int			print_c(va_list *ap, t_flags *f)
 {
 	int spaces;
 	int	n;
@@ -22,9 +22,9 @@ int			print_c(va_list *ap, t_flags *flags)
 
 	n = 0;
 	ch = va_arg(*ap, int);
-	spaces = flags->spaces_len - 1;
-	n += print_space_ch(F_ZERO_L - 1, '0');
-	n += flags->minus ? (ft_putchar(ch) + print_space_ch(spaces, ' ')) :
+	spaces = f->spaces_l - 1;
+	n += print_space_ch(f->zero_l - 1, '0');
+	n += f->minus ? (ft_putchar(ch) + print_space_ch(spaces, ' ')) :
 	print_space_ch(spaces, ' ') + ft_putchar(ch);
 	return (n);
 }
@@ -39,19 +39,19 @@ int			print_space_ch(int n, int c)
 	return (n > 0 ? n : 0);
 }
 
-int			nospec(t_flags *flags, char c)
+int			nospec(t_flags *f, char c)
 {
 	int	res;
 
 	res = 0;
-	F_SPACES_L = ft_isgraph(c) ? F_SPACES_L - 1 : F_SPACES_L;
-	F_ZERO_L = ft_isgraph(c) ? F_ZERO_L - 1 : F_ZERO_L;
-	if (F_SPACES_L && !F_MINUS && F_SPACES_L > F_ZERO_L)
-		res += print_space_ch(F_SPACES_L, ' ');
-	if (F_ZERO_L > F_SPACES_L)
-		res += print_space_ch(F_ZERO_L, '0');
+	f->spaces_l = ft_isgraph(c) ? f->spaces_l - 1 : f->spaces_l;
+	f->zero_l = ft_isgraph(c) ? f->zero_l - 1 : f->zero_l;
+	if (f->spaces_l && !f->minus && f->spaces_l > f->zero_l)
+		res += print_space_ch(f->spaces_l, ' ');
+	if (f->zero_l > f->spaces_l)
+		res += print_space_ch(f->zero_l, '0');
 	res += ft_isgraph(c) ? ft_putchar(c) : 0;
-	if (F_SPACES_L && F_MINUS && F_SPACES_L > F_ZERO_L)
-		res += print_space_ch(F_SPACES_L, ' ');
+	if (f->spaces_l && f->minus && f->spaces_l > f->zero_l)
+		res += print_space_ch(f->spaces_l, ' ');
 	return (res);
 }

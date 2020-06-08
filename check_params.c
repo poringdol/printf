@@ -14,30 +14,30 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int	check_params(char **str, va_list *ap, t_flags *flags, int n)
+int	check_params(char **str, va_list *ap, t_flags *f, int n)
 {
-	reset_flags(flags);
+	reset_flags(f);
 	while (!isspecs(**str) && isflags(**str))
-		set_flags(ap, flags, str);
-	ifnegative(flags);
+		set_flags(ap, f, str);
+	ifnegative(f);
 	if (**str == '%')
-		return (n += print_percent(flags));
+		return (n += print_percent(f));
 	if (**str == 'c')
-		n += print_c(ap, flags);
+		n += print_c(ap, f);
 	else if (**str == 's')
-		n += print_s(ap, flags);
+		n += print_s(ap, f);
 	else if (**str == 'i' || **str == 'd' || **str == 'u' || **str == 'f' ||
 	**str == 'F' || **str == 'x' || **str == 'X' || **str == 'o' ||
 	**str == 'e' || **str == 'g')
-		n += print_number(ap, flags, **str);
+		n += print_number(ap, f, **str);
 	else if (**str == 'l' || **str == 'h' || **str == 'L')
-		n += islongshort(ap, flags, str);
+		n += islongshort(ap, f, str);
 	else if (**str == 'p')
-		n += print_p(ap, flags);
+		n += print_p(ap, f);
 	else if (**str == 'n')
 		*(va_arg(*ap, int *)) = n;
-	else if (F_SPACES_L || F_DOT_L || F_ZERO_L)
-		n += nospec(flags, **str);
+	else if (f->spaces_l || f->dot_l || f->zero_l)
+		n += nospec(f, **str);
 	else
 		n += ft_putchar(**str);
 	return (n);

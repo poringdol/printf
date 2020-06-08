@@ -14,7 +14,7 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-int				print_u(va_list *ap, t_flags *flags)
+int				print_u(va_list *ap, t_flags *f)
 {
 	unsigned			n;
 	int					len;
@@ -22,23 +22,23 @@ int				print_u(va_list *ap, t_flags *flags)
 
 	res = 0;
 	n = va_arg(*ap, unsigned);
-	F_UNSIGN = 1;
-	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOT_L))
-		return (print_sign(flags));
+	f->unsign = 1;
+	ignored_flags(f);
+	if (!n && (f->dot && !f->dot_l))
+		return (print_sign(f));
 	len = len_unumber(n);
-	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
-	if (F_ZERO)
-		res += print_space_num(flags, len);
-	res += print_dot(flags, len);
+	if (f->spaces_l && !f->minus)
+		res += print_space_num(f, len);
+	if (f->zero)
+		res += print_space_num(f, len);
+	res += print_dot(f, len);
 	res += ft_putunbr(n);
-	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
+	if (f->spaces_l && f->minus)
+		res += print_space_num(f, len);
 	return (res);
 }
 
-int				print_lu(va_list *ap, t_flags *flags)
+int				print_lu(va_list *ap, t_flags *f)
 {
 	unsigned long		n;
 	int					len;
@@ -46,23 +46,23 @@ int				print_lu(va_list *ap, t_flags *flags)
 
 	res = 0;
 	n = va_arg(*ap, unsigned long);
-	F_UNSIGN = 1;
-	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOT_L))
-		return (print_sign(flags));
+	f->unsign = 1;
+	ignored_flags(f);
+	if (!n && (f->dot && !f->dot_l))
+		return (print_sign(f));
 	len = len_unumber(n);
-	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
-	if (F_ZERO)
-		res += print_space_num(flags, len);
-	res += print_dot(flags, len);
+	if (f->spaces_l && !f->minus)
+		res += print_space_num(f, len);
+	if (f->zero)
+		res += print_space_num(f, len);
+	res += print_dot(f, len);
 	res += ft_putunbr(n);
-	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
+	if (f->spaces_l && f->minus)
+		res += print_space_num(f, len);
 	return (res);
 }
 
-int				print_llu(va_list *ap, t_flags *flags)
+int				print_llu(va_list *ap, t_flags *f)
 {
 	unsigned long long	n;
 	int					len;
@@ -70,18 +70,18 @@ int				print_llu(va_list *ap, t_flags *flags)
 
 	res = 0;
 	n = va_arg(*ap, unsigned long long);
-	F_UNSIGN = 1;
-	ignored_flags(flags);
-	if (!n && (F_DOT && !F_DOT_L))
-		return (print_sign(flags));
+	f->unsign = 1;
+	ignored_flags(f);
+	if (!n && (f->dot && !f->dot_l))
+		return (print_sign(f));
 	len = len_unumber(n);
-	if (F_SPACES_L && !F_MINUS)
-		res += print_space_num(flags, len);
-	if (F_ZERO)
-		res += print_space_num(flags, len);
-	res += print_dot(flags, len);
+	if (f->spaces_l && !f->minus)
+		res += print_space_num(f, len);
+	if (f->zero)
+		res += print_space_num(f, len);
+	res += print_dot(f, len);
 	res += ft_putunbr(n);
-	if (F_SPACES_L && F_MINUS)
-		res += print_space_num(flags, len);
+	if (f->spaces_l && f->minus)
+		res += print_space_num(f, len);
 	return (res);
 }

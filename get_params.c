@@ -45,28 +45,28 @@ int		get_number(char **arr)
 	return (ft_atoi(str));
 }
 
-void	ifnegative(t_flags *flags)
+void	ifnegative(t_flags *f)
 {
-	if (F_ZERO_L < 0 || F_SPACES_L < 0)
+	if (f->zero_l < 0 || f->spaces_l < 0)
 	{
-		F_ZERO_L = F_ZERO_L < 0 ? -F_ZERO_L : F_ZERO_L;
-		F_SPACES_L = F_SPACES_L < 0 ? -F_SPACES_L : F_SPACES_L;
-		F_MINUS = 1;
+		f->zero_l = f->zero_l < 0 ? -f->zero_l : f->zero_l;
+		f->spaces_l = f->spaces_l < 0 ? -f->spaces_l : f->spaces_l;
+		f->minus = 1;
 	}
-	if (F_DOT_L < 0 && (F_DOT_L < F_SPACES_L || F_DOT_L < F_ZERO_L))
+	if (f->dot_l < 0 && (f->dot_l < f->spaces_l || f->dot_l < f->zero_l))
 	{
-		F_DOT_L = 0;
-		F_DOT = 0;
+		f->dot_l = 0;
+		f->dot = 0;
 	}
 }
 
-int		islongshort(va_list *ap, t_flags *flags, char **str)
+int		islongshort(va_list *ap, t_flags *f, char **str)
 {
 	while (**str == 'l' || **str == 'L')
-		set_flags(ap, flags, str);
+		set_flags(ap, f, str);
 	while (**str == 'h')
-		set_flags(ap, flags, str);
+		set_flags(ap, f, str);
 	if (**str == 'f')
-		return (print_lf(ap, flags));
-	return (print_number(ap, flags, **str));
+		return (print_lf(ap, f));
+	return (print_number(ap, f, **str));
 }

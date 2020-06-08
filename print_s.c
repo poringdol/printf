@@ -28,25 +28,25 @@ int				ft_putnstr(char const *s, int n)
 	return (n);
 }
 
-static int		print_null(t_flags *flags)
+static int		print_null(t_flags *f)
 {
 	int		spaces;
 	int		len;
 
 	len = ft_strlen("(null)");
-	if (F_DOT && F_DOT_L < len)
-		len = F_DOT_L;
-	spaces = F_SPACES_L - len;
-	if (F_SPACES_L)
+	if (f->dot && f->dot_l < len)
+		len = f->dot_l;
+	spaces = f->spaces_l - len;
+	if (f->spaces_l)
 	{
-		return (F_MINUS ?
+		return (f->minus ?
 		(ft_putnstr("(null)", len) + print_space_ch(spaces, ' ')) :
 		print_space_ch(spaces, ' ') + ft_putnstr("(null)", len));
 	}
 	return (ft_putnstr("(null)", len));
 }
 
-int				print_s(va_list *ap, t_flags *flags)
+int				print_s(va_list *ap, t_flags *f)
 {
 	int		n;
 	int		len;
@@ -55,14 +55,14 @@ int				print_s(va_list *ap, t_flags *flags)
 
 	n = 0;
 	if (!(string = va_arg(*ap, char *)))
-		return (print_null(flags));
-	ignored_flags(flags);
-	n += print_space_ch(F_ZERO_L - ft_strlen(string), '0');
+		return (print_null(f));
+	ignored_flags(f);
+	n += print_space_ch(f->zero_l - ft_strlen(string), '0');
 	len = ft_strlen(string);
-	if (F_DOT)
-		len = (F_DOT_L < len) ? F_DOT_L : len;
-	spaces = F_SPACES_L - len;
-	n += (F_MINUS ? (ft_putnstr(string, len) + print_space_ch(spaces, ' ')) :
+	if (f->dot)
+		len = (f->dot_l < len) ? f->dot_l : len;
+	spaces = f->spaces_l - len;
+	n += (f->minus ? (ft_putnstr(string, len) + print_space_ch(spaces, ' ')) :
 	print_space_ch(spaces, ' ') + ft_putnstr(string, len));
 	return (n);
 }

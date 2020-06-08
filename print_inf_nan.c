@@ -32,14 +32,14 @@ int			isinfnan(double *d)
 	return (0);
 }
 
-static int	get_inftnan(t_flags *flags, char buf[5], double *d)
+static int	get_inftnan(t_flags *f, char buf[5], double *d)
 {
 	if (*((unsigned long *)(d)) == DBL_NAN)
 		buf = ft_strcpy(buf, "nan");
 	else if (*((unsigned long *)(d)) == DBL_INF)
 	{
-		if (flags->plus || flags->hidden)
-			buf = flags->plus ? ft_strcpy(buf, "+inf") : ft_strcpy(buf, " inf");
+		if (f->plus || f->hidden)
+			buf = f->plus ? ft_strcpy(buf, "+inf") : ft_strcpy(buf, " inf");
 		else
 			buf = ft_strcpy(buf, "inf");
 	}
@@ -47,14 +47,14 @@ static int	get_inftnan(t_flags *flags, char buf[5], double *d)
 		buf = ft_strcpy(buf, "-inf");
 	else if (*((unsigned long *)(d)) == DBL_NZERO)
 	{
-		flags->nzero = 1;
-		flags->sign = 1;
-		return (print_f(flags, 0));
+		f->nzero = 1;
+		f->sign = 1;
+		return (print_f(f, 0));
 	}
 	return (0);
 }
 
-int			print_infnan(t_flags *flags, double *d)
+int			print_infnan(t_flags *f, double *d)
 {
 	int		n;
 	int		len;
@@ -64,20 +64,20 @@ int			print_infnan(t_flags *flags, double *d)
 	ft_bzero(buf, 5);
 	if (*((unsigned long *)(d)) == DBL_NAN ||
 	*((unsigned long *)(d)) == DBL_INF || *((unsigned long *)(d)) == DBL_NINF)
-		get_inftnan(flags, buf, d);
+		get_inftnan(f, buf, d);
 	else if (*((unsigned long *)(d)) == DBL_NZERO)
-		return (get_inftnan(flags, buf, d));
+		return (get_inftnan(f, buf, d));
 	else if (*d >= DBL_MAX - 1 / ft_pow(10, 308))
 		return (print_dblmax());
 	else if (*d <= -DBL_MAX + 1 / ft_pow(10, 308))
 		return (ft_putchar('-') + print_dblmax());
-	ignored_flags(flags);
+	ignored_flags(f);
 	len = ft_strlen(buf);
-	n = print_space_ch(F_ZERO_L - len, ' ');
-	if (F_DOT)
-		len = (F_DOT_L < len) ? F_DOT_L : len;
-	spaces = F_SPACES_L - len;
-	n += (F_MINUS ? (ft_putnstr(buf, len) + print_space_ch(spaces, ' ')) :
+	n = print_space_ch(f->zero_l - len, ' ');
+	if (f->dot)
+		len = (f->dot_l < len) ? f->dot_l : len;
+	spaces = f->spaces_l - len;
+	n += (f->minus ? (ft_putnstr(buf, len) + print_space_ch(spaces, ' ')) :
 	print_space_ch(spaces, ' ') + ft_putnstr(buf, len));
 	return (n);
 }

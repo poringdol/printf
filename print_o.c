@@ -14,24 +14,24 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static int	print_hash(t_flags *flags)
+static int	print_hash(t_flags *f)
 {
 	int n;
 
 	n = 0;
-	ignored_flags(flags);
-	if (F_SPACES_L && !F_MINUS)
-		n += print_space_num(flags, 1);
+	ignored_flags(f);
+	if (f->spaces_l && !f->minus)
+		n += print_space_num(f, 1);
 	n += ft_putchar('0');
-	if (F_ZERO)
-		n += print_space_num(flags, 1);
-	n += print_dot(flags, 1);
-	if (F_SPACES_L && F_MINUS)
-		n += print_space_num(flags, 1);
+	if (f->zero)
+		n += print_space_num(f, 1);
+	n += print_dot(f, 1);
+	if (f->spaces_l && f->minus)
+		n += print_space_num(f, 1);
 	return (n);
 }
 
-static char	*convert_llo(va_list *ap, t_flags *flags)
+static char	*convert_llo(va_list *ap, t_flags *f)
 {
 	int					j;
 	int					len;
@@ -55,11 +55,11 @@ static char	*convert_llo(va_list *ap, t_flags *flags)
 		buf[j] = buf[len - j - 1];
 		buf[len - 1 - j++] = (char)n;
 	}
-	F_INTZERO = (buf[0] == '0') ? 1 : 0;
+	f->intzero = (buf[0] == '0') ? 1 : 0;
 	return (buf);
 }
 
-static char	*convert_o(va_list *ap, t_flags *flags)
+static char	*convert_o(va_list *ap, t_flags *f)
 {
 	int					j;
 	int					len;
@@ -83,60 +83,60 @@ static char	*convert_o(va_list *ap, t_flags *flags)
 		buf[j] = buf[len - j - 1];
 		buf[len - 1 - j++] = (char)n;
 	}
-	F_INTZERO = (buf[0] == '0') ? 1 : 0;
+	f->intzero = (buf[0] == '0') ? 1 : 0;
 	return (buf);
 }
 
-int			print_o(va_list *ap, t_flags *flags, char c)
+int			print_o(va_list *ap, t_flags *f, char c)
 {
 	int					len;
 	int					res;
 	char				*num;
 
 	res = 0;
-	F_OCT = 1;
-	num = convert_o(ap, flags);
-	if (F_HASH && F_INTZERO && F_DOT)
-		return (print_hash(flags));
-	ignored_flags(flags);
-	if (F_INTZERO && F_DOT && !F_DOT_L && !F_HASH)
-		return (print_sign(flags));
-	len = F_HASH ? ft_strlen(num) + 1 : ft_strlen(num);
-	res += (F_SPACES_L && !F_MINUS) ? print_space_num(flags, len) : 0;
-	res += plus_minus(flags, 1, c);
-	res += F_ZERO ? print_space_num(flags, len) : 0;
-	res += print_dot(flags, len);
-	if (F_INTZERO && F_DOT && !F_DOT_L)
+	f->oct = 1;
+	num = convert_o(ap, f);
+	if (f->hash && f->intzero && f->dot)
+		return (print_hash(f));
+	ignored_flags(f);
+	if (f->intzero && f->dot && !f->dot_l && !f->hash)
+		return (print_sign(f));
+	len = f->hash ? ft_strlen(num) + 1 : ft_strlen(num);
+	res += (f->spaces_l && !f->minus) ? print_space_num(f, len) : 0;
+	res += plus_minus(f, 1, c);
+	res += f->zero ? print_space_num(f, len) : 0;
+	res += print_dot(f, len);
+	if (f->intzero && f->dot && !f->dot_l)
 		res += ft_putchar('0');
 	res += ft_putstr(num);
-	res += (F_SPACES_L && F_MINUS) ? print_space_num(flags, len) : 0;
+	res += (f->spaces_l && f->minus) ? print_space_num(f, len) : 0;
 	free(num);
 	return (res);
 }
 
-int			print_llo(va_list *ap, t_flags *flags, char c)
+int			print_llo(va_list *ap, t_flags *f, char c)
 {
 	int					len;
 	int					res;
 	char				*num;
 
 	res = 0;
-	F_OCT = 1;
-	num = convert_llo(ap, flags);
-	if (F_HASH && F_INTZERO && F_DOT)
-		return (print_hash(flags));
-	ignored_flags(flags);
-	if (num[0] == '0' && (F_DOT && !F_DOT_L))
-		return (print_sign(flags));
-	len = F_HASH ? ft_strlen(num) + 1 : ft_strlen(num);
-	res += (F_SPACES_L && !F_MINUS) ? print_space_num(flags, len) : 0;
-	res += plus_minus(flags, 1, c);
-	res += F_ZERO ? print_space_num(flags, len) : 0;
-	res += print_dot(flags, len);
-	if (num[0] == 0 && !(F_DOT && !F_DOT_L))
+	f->oct = 1;
+	num = convert_llo(ap, f);
+	if (f->hash && f->intzero && f->dot)
+		return (print_hash(f));
+	ignored_flags(f);
+	if (num[0] == '0' && (f->dot && !f->dot_l))
+		return (print_sign(f));
+	len = f->hash ? ft_strlen(num) + 1 : ft_strlen(num);
+	res += (f->spaces_l && !f->minus) ? print_space_num(f, len) : 0;
+	res += plus_minus(f, 1, c);
+	res += f->zero ? print_space_num(f, len) : 0;
+	res += print_dot(f, len);
+	if (num[0] == 0 && !(f->dot && !f->dot_l))
 		res += ft_putchar('0');
 	res += ft_putstr(num);
-	res += (F_SPACES_L && F_MINUS) ? print_space_num(flags, len) : 0;
+	res += (f->spaces_l && f->minus) ? print_space_num(f, len) : 0;
 	free(num);
 	return (res);
 }

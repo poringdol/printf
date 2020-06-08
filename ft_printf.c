@@ -17,14 +17,14 @@
 int	ft_printf(const char *format, ...)
 {
 	va_list ap;
-	t_flags	*flags;
+	t_flags	*f;
 	int		flag;
 	int		n;
 
 	va_start(ap, format);
 	n = 0;
 	flag = 0;
-	flags = create_flags();
+	f = create_flags();
 	while (*format)
 	{
 		if (*format == '%' && !flag)
@@ -33,12 +33,12 @@ int	ft_printf(const char *format, ...)
 			n += write(1, format, 1);
 		else if (flag)
 		{
-			n = check_params((char **)&format, &ap, flags, n);
+			n = check_params((char **)&format, &ap, f, n);
 			flag = 0;
 		}
 		format += *format ? 1 : 0;
 	}
-	free(flags);
+	free(f);
 	va_end(ap);
 	return (n);
 }
