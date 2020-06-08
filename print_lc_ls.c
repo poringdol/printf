@@ -28,10 +28,10 @@ int				print_ls(va_list *ap, t_flags *f)
 	n = 0;
 	if (!(string = va_arg(*ap, wchar_t *)))
 		return (print_null(f));
-	while (*string)
+	while (*string != '\0')
 		convert[n++] = *((char *)string++);
 	convert[n] = '\0';
-	len = ft_wch_strlen(string);
+	len = ft_strlen(convert);
 	ignored_flags(f);
 	n = print_space_ch(f->zero_l - ft_strlen(convert), '0');
 	if (f->dot)
