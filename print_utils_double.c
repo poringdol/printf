@@ -34,7 +34,7 @@ int		print_float(t_flags *f, double d)
 	ft_strcat(buf_i, buf_f);
 	float_params(buf_i, f);
 	return (ft_putstr(buf_i) + ((f->g) ? 0 : print_space_ch(f->dot_l -
-	(1 + len_fnumber(f, d) + (int)ft_strlen(buf_i)), '0')));
+	((int)ft_strlen(buf_i) - len_fnumber(f, d) - 1), '0')));
 }
 
 double	get_float(double d)
