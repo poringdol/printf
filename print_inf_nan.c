@@ -69,9 +69,9 @@ int			print_infnan(t_flags *f, double *d)
 	else if (*((unsigned long *)(d)) == DBL_NZERO)
 		return (get_inftnan(f, buf, d));
 	else if (*d >= DBL_MAX - 1 / ft_pow(10, 308))
-		return (print_dblmax(1));
+		return (print_dblmax());
 	else if (*d <= -DBL_MAX + 1 / ft_pow(10, 308))
-		return (ft_putchar('-') + print_dblmax(1));
+		return (ft_putchar('-') + print_dblmax());
 	ignored_flags(f);
 	len = ft_strlen(buf);
 	n = print_space_ch(f->zero_l - len, ' ');
@@ -83,13 +83,12 @@ int			print_infnan(t_flags *f, double *d)
 	return (n);
 }
 
-int			print_dblmax(int i)
+int			print_dblmax(void)
 {
-	if (i == 1)
-		return (ft_putstr("1797693134862315708145274237317043567980705675258449") +
-		ft_putstr("965989174768031572607800285387605895586327668781715404589535") +
-		ft_putstr("143824642343213268894641827684675467035375169860499105765512") +
-		ft_putstr("820762454900903893289440758685084551339423045832369032229481") +
-		ft_putstr("658085593321233482747978262041447231687381771809192998812504") +
-		ft_putstr("04026184124858368.000000"));
+	return (ft_putstr("1797693134862315708145274237317043567980705675258449") +
+	ft_putstr("965989174768031572607800285387605895586327668781715404589535") +
+	ft_putstr("143824642343213268894641827684675467035375169860499105765512") +
+	ft_putstr("820762454900903893289440758685084551339423045832369032229481") +
+	ft_putstr("658085593321233482747978262041447231687381771809192998812504") +
+	ft_putstr("04026184124858368.000000"));
 }

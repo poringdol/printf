@@ -117,7 +117,7 @@ int				print_efloat(t_flags *flags, double d);
 void			float_gparams(char buf[D_SIZE]);
 int				isinfnan(double *d);
 int				print_infnan(t_flags *flags, double *d);
-int				print_dblmax(int i);
+int				print_dblmax(void);
 char			*ft_lltobuf(char buf[BSIZE], long long n);
 void			convert_wstr_to_str(char *convert, wchar_t *wch);
 void			convert_wch_to_ch(char *convert, wchar_t wch);
