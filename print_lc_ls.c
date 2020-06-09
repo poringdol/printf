@@ -14,14 +14,26 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static size_t	ft_wch_strlen(const wchar_t *str)
+static int	ft_wch_strlen(const wchar_t *str)
 {
 	int i;
+	int len;
 
 	i = 0;
+	len = 0;
 	while (str[i])
+	{
+		if ((str[i] & 0x1FFF80) == 0)
+			len += 1;
+		else if ((str[i] & 0x1FF800) == 0)
+			len += 2;
+		else if ((str[i] & 0x10000) == 0)
+			len += 3;
+		else if (str[i] <= 0x10FFFF)
+			len += 4;
 		i++;
-	return (i);
+	}
+	return (len);
 }
 
 int				print_lc(va_list *ap, t_flags *f)
@@ -58,7 +70,7 @@ int				print_ls(va_list *ap, t_flags *f)
 	n = 0;
 	if (!(string = va_arg(*ap, wchar_t *)))
 		return (print_null(f));
-	ch = ft_calloc(ft_wch_strlen(string), 4);
+	ch = ft_calloc(ft_wch_strlen(string) + 1, 4);
 	convert_wstr_to_str(ch, string);
 	len = ft_strlen(ch);
 	ignored_flags(f);
