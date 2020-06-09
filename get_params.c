@@ -25,7 +25,7 @@ int		isspecs(char c)
 {
 	if (c == 'c' || c == 's' || c == 'i' || c == 'd' || c == 'u' ||
 	c == 'x' || c == 'X' || c == 'l' || c == 'h' || c == 'p' ||
-	c == 'L' || c == 'e' || c == 'g')
+	c == 'L' || c == 'e' || c == 'g' || c == 'C')
 		return (c);
 	return (0);
 }
@@ -68,7 +68,7 @@ int		islongshort(va_list *ap, t_flags *f, char **str)
 		set_flags(ap, f, str);
 	if (**str == 'f')
 		return (print_lf(ap, f));
-	if (**str == 'c')
+	if (**str == 'c' || **str == 'C')
 		return (print_lc(ap, f));
 	if (**str == 's')
 		return (print_ls(ap, f));

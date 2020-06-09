@@ -30,7 +30,7 @@ int	check_params(char **str, va_list *ap, t_flags *f, int n)
 	**str == 'F' || **str == 'x' || **str == 'X' || **str == 'o' ||
 	**str == 'e' || **str == 'g')
 		n += print_number(ap, f, **str);
-	else if (**str == 'l' || **str == 'h' || **str == 'L')
+	else if (**str == 'l' || **str == 'h' || **str == 'L' || **str == 'C')
 		n += islongshort(ap, f, str);
 	else if (**str == 'p')
 		n += print_p(ap, f);

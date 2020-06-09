@@ -41,11 +41,15 @@ int				print_f(t_flags *f, double d)
 int				print_lf(va_list *ap, t_flags *f)
 {
 	long double	d;
+	double		tmp;
 	int			len;
 	int			res;
 
 	res = 0;
 	f->sign += (d = va_arg(*ap, long double)) < 0 ? 1 : 0;
+	tmp = (double)d;
+	if (isinfnan(&tmp))
+		return (print_infnan(f, &tmp));
 	len = len_fnumber(f, d) + f->dot_l +
 	((f->plus || f->hidden) && !(d < 0) ? 1 : 0);
 	len += (f->dot_l || f->hash) ? 1 : 0;
