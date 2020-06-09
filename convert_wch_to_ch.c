@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   convert_wch_to_ch.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemocri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/06/09 09:26:01 by pdemocri          #+#    #+#             */
+/*   Updated: 2020/06/09 09:26:06 by pdemocri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdarg.h>
 #include "libftprintf.h"
 #include "libft.h"
@@ -23,13 +35,14 @@ static void	four_octet(char *convert, wchar_t wch, int *i)
 	convert[(*i)++] |= 0x80 | (wch & 0x3f);
 }
 
-/**
-* 1 octet wch >= 0    && wch <= 127
-* 2 octet wch >= 128  && wch <= 2047
-* 3 octet wch >= 2048 && wch <= 65535
-* 4 octet wch >= 65536 && wch <= 1114111
-**/
-void    	convert_wstr_to_str(char *convert, wchar_t *wch)
+/*
+** 1 octet wch >= 0    && wch <= 127
+** 2 octet wch >= 128  && wch <= 2047
+** 3 octet wch >= 2048 && wch <= 65535
+** 4 octet wch >= 65536 && wch <= 1114111
+*/
+
+void		convert_wstr_to_str(char *convert, wchar_t *wch)
 {
 	int		i;
 	int		j;

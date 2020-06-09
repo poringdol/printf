@@ -15,7 +15,7 @@
 #include "libft.h"
 #include "libftprintf.h"
 
-int				ft_putnstr(char const *s, int n)
+int	ft_putnstr(char const *s, int n)
 {
 	int		i;
 
@@ -28,7 +28,7 @@ int				ft_putnstr(char const *s, int n)
 	return (n);
 }
 
-int			print_null(t_flags *f)
+int	print_null(t_flags *f)
 {
 	int		spaces;
 	int		len;
@@ -46,7 +46,7 @@ int			print_null(t_flags *f)
 	return (ft_putnstr("(null)", len));
 }
 
-int				print_s(va_list *ap, t_flags *f)
+int	print_s(va_list *ap, t_flags *f)
 {
 	int		n;
 	int		len;
