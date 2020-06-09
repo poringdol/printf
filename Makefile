@@ -36,7 +36,8 @@ SRC = ft_printf.c\
 	  print_utils_g.c\
 	  util_number.c\
 	  print_inf_nan.c\
-	  print_lc_ls.c
+	  print_lc_ls.c\
+	  convert_wch_to_ch.c
 
 SRCDIR = ./
 
