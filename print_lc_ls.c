@@ -14,7 +14,7 @@
 #include "libftprintf.h"
 #include "libft.h"
 
-static int	ft_wch_strlen(const wchar_t *str)
+static int		ft_wch_strlen(const wchar_t *str)
 {
 	int i;
 	int len;
