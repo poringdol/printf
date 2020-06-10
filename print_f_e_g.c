@@ -22,9 +22,9 @@ int				print_f(t_flags *f, double d)
 
 	res = 0;
 	f->sign += (d < 0) ? 1 : 0;
-	len = len_fnumber(f, d) + f->dot_l +
+	len = len_fnumber(f, d) + f->dot_l + 1 +
 	((f->plus || f->hidden || f->nzero) && !(d < 0) ? 1 : 0);
-	len += (f->dot_l || f->hash) ? 1 : 0;
+	len += (f->dot_l || (f->hash && f->dot && !f->dot_l)) ? 1 : 0;
 	len += ((f->dot && !f->dot_l) || f->dot_l) ? 0 : 6;
 	if (f->spaces_l && !f->minus)
 		res += print_space_num(f, len);
